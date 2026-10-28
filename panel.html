@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LapTop Shop</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="admin.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <a onclick="location.href='panel.html'" class="logo">
+            <h1 id="title">Quản lý cửa hàng</h1>
+        </a>
+    </header>
+    <main>
+        <form class="login-admin">
+            <h1 style="font-size: 50px;">Đăng nhập</h1>
+            <input style="font-size: 22px;border-radius:  15px;border: solid 2px blue;width: 400px;height: 50px;"
+                id="admin_pass" placeholder="Hãy nhập mật khẩu" type="password"><br>
+            <button
+                style="font-size: 22px;color: white;border-radius: 15px;background-color: blue;border: solid 2px blue;width: 200px;height: 60px;"
+                type="button" id="loginBtn">Đăng
+                nhập</button>
+        </form>
+        <div class="contain">
+            <div class="menu">
+                <button id="accounts-management-Btn">Quản lý tài khoản</button>
+                <button id="products-management-Btn">Quản lý sản phẩm</button>
+                <button id="stock-management-Btn">Quản lý kho hàng</button>
+                <button id="orders-management-Btn">Quản lý đơn hàng</button>
+            </div>
+            <div class="content">
+                <div id="accounts-management">
+                    <div style="display: flex;justify-content: center;align-items: center;">
+                        <button class="account_Btn" id="new-account"><img src="icon/user-plus-solid-full.svg"
+                                alt="k co hinh"></button>
+                        <button class="account_Btn" id="remove-account"><img src="icon/user-xmark-solid-full.svg"
+                                alt="k co hinh"></button>
+                        <button class="account_Btn" id="edit-account"><img src="icon/user-pen-solid-full.svg"
+                                alt="k co hinh"></button>
+                        <button class="account_Btn" id="lock-account"><img src="icon/user-lock-solid-full.svg"
+                                alt="k co hinh"></button>
+                        <button class="account_Btn" id="unlock-account"><img src="icon/user-unlock-solid-full.svg"
+                                alt="k co hinh"></button>
+                        <button class="account_Btn" id="save-account" style="display: none;"><img src="icon/save.svg"
+                                alt="k co hinh"></button>
+                    </div>
+                    <table class="accounts">
+                        <thead>
+                            <tr>
+                                <th>Tên đăng nhập</th>
+                                <th>Mật khẩu</th>
+                                <th>Email</th>
+                                <th>Địa chỉ</th>
+                                <th>Khoá</th>
+                                <th>Chọn</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accounts-body">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="products-management"></div>
+                <div id="stock-management"></div>
+                <div id="orders-management"></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

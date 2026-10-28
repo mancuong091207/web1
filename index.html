@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LapTop Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="Product.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="giohang.js" defer></script>
+    <script src="account.js" defer></script>
+</head>
+
+<body>
+    <header><!--Phần đầu trang-->
+        <a href="index.html" class="logo">
+            <h1>Cửa hàng LapTop</h1>
+        </a>
+
+        <div class="tim-kiem-dau-trang">
+            <input type="search" id="ten-laptop" name="q" form="tim-kiem" aria-label="Tên laptop"
+                placeholder="Bạn muốn mua laptop nào?">
+            <button type="submit" form="tim-kiem" aria-label="Tìm kiếm">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <div class="lien-ket-header">
+            <a class="nut-header nut-gio-hang" aria-label="Xem giỏ hàng">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="so-luong">0</span>
+
+            </a>
+
+            <a href="#signin_tab" class="nut-header login/register" id="sign-in">
+                <i class="fa-regular fa-user"></i>
+                <span>Đăng nhập</span>
+            </a>
+            <a class="nut-header" id="accountBtn" style="display: none;">
+                <i class="fa-regular fa-user"></i>
+                <span id="infoName"></span>
+                <ul>
+                    <li id="infoBtn" onclick="location.assign('#account')">Thông tin tài khoản</li>
+                    <li id="historyBuyBtn" onclick="location.assign('#history')">Lịch sử mua hàng</li>
+                    <li id="sign-out">Đăng xuất</li>
+                </ul>
+            </a>
+        </div>
+        <div class="account_tab" id="signin_tab" style="display: none;">
+            <div style="background-color: white; border: solid white; border-radius: 15px; width: 600px;padding: 50px;">
+                <p style="font-size:60px;font-weight: bold;color: black;">Đăng nhập
+                    <button class="closeBtn" type="button">X</button>
+                </p>
+                <form>
+                    <input type="text" id="user1" placeholder="Tên đăng nhập"
+                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
+                    <input type="password" id="pass1" placeholder="Mật khẩu"
+                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br><br>
+                    <input type="button" value="Đăng nhập" id="signin_Btn"
+                        style="width: 200px;height:50px; background-color: #174a7e;border: solid #174a7e 2px;border-radius: 10px;font-size: 35px;color: white;"><br><br>
+                    <p style="color: black;">Chưa có tài khoản? <a style="color: #174a7e;text-decoration: none;"
+                            href="#signup_tab">Đăng ký</a>.</p>
+                </form>
+            </div>
+        </div>
+        <div class="account_tab" id="signup_tab" style="display: none;">
+            <div
+                style="background-color: white; border: solid white ; border-radius: 15px; width: 600px;padding: 50px;">
+                <p style="font-size:60px;font-weight: bold;color: black;">Đăng ký
+                    <button class="closeBtn" type="button">X</button>
+                </p>
+                <form>
+                    <input type="text" id="user" placeholder="Tên đăng nhập"
+                        style="height: 40px;width: 240px;border:solid black 1px;border-radius:5px;font-size: 15px;">
+                    <br><br>
+                    <input type="text" id="email" placeholder="Địa chỉ email"
+                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
+                    <input type="text" id="address" placeholder="Địa chỉ"
+                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
+                    <input type="password" id="pass" placeholder="Mật khẩu"
+                        style="height: 40px;width: 240px;border:solid black 1px;border-radius:5px;font-size: 15px;"><br><br><br>
+                    <input type="button" value="Đăng ký" id="signup_Btn"
+                        style="width: 200px;height:50px; font-size: 35px;color: white; background-color: #174a7e; border: #174a7e; border-radius: 10px;"><br><br>
+                    <p style="color: black;">Đã có tài khoản? <a style="color: #174a7e;text-decoration: none;"
+                            href="#signin_tab">Đăng nhập</a>.</p>
+                </form>
+            </div>
+        </div>
+        <div class="account_tab" id="check_pass" style="display: none;">
+            <div style="background-color: white; border: solid white; border-radius: 15px; width: 600px;padding: 50px;">
+                <form style="display: flex; justify-content: center;gap: 5px;">
+                    <input type="password" id="old_pass" placeholder="Mật khẩu cũ"
+                        style="width:240px;height: 50px;border: solid black 2px; border-radius: 8px;font-size: 15px;"><br><br>
+                    <input type="password" id="new_pass" placeholder="Mật khẩu mới"
+                        style="width:240px;height: 50px;border: solid black 2px; border-radius: 8px;font-size: 15px;"><br><br>
+                    <img style="height: 50px;width: 50px; border: black solid 2px; border-radius: 8px;"
+                        src="icon/save.svg" alt="k co hinh" class="saveInfo1">
+                    <button class="closeBtn" type="button"
+                        style="border: black solid 2px; border-radius: 8px;width: 53px; height: 53px;">X</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section id="san-pham">
+            <h2>Sản Phẩm</h2>
+            <form id="tim-kiem">
+                <h3 class="tieu-de-loc">Loại laptop</h3>
+                <div class="danh-muc-loai">
+                    <label class="muc-loai">
+                        <input type="radio" name="loai-laptop" value="" checked>
+                        <span class="icon-loai"><i class="fa-solid fa-laptop"></i></span>
+                        <span>Tất cả laptop</span>
+                    </label>
+                    <label class="muc-loai">
+                        <input type="radio" name="loai-laptop" value="hoc-tap">
+                        <span class="icon-loai"><i class="fa-solid fa-graduation-cap"></i></span>
+                        <span>Laptop học tập</span>
+                    </label>
+                    <label class="muc-loai">
+                        <input type="radio" name="loai-laptop" value="van-phong">
+                        <span class="icon-loai"><i class="fa-solid fa-briefcase"></i></span>
+                        <span>Laptop văn phòng</span>
+                    </label>
+                    <label class="muc-loai">
+                        <input type="radio" name="loai-laptop" value="gaming">
+                        <span class="icon-loai"><i class="fa-solid fa-gamepad"></i></span>
+                        <span>Laptop gaming</span>
+                    </label>
+                </div>
+
+                <hr class="duong-ke">
+
+                <h3 class="tieu-de-loc">Mức giá</h3>
+                <div class="danh-sach-gia">
+                    <label class="muc-gia">
+                        <input type="checkbox" name="gia" data-tu="0" data-den="10000000">
+                        Dưới 10 triệu
+                    </label>
+                    <label class="muc-gia">
+                        <input type="checkbox" name="gia" data-tu="10000000" data-den="15000000">
+                        10 - 15 triệu
+                    </label>
+                    <label class="muc-gia">
+                        <input type="checkbox" name="gia" data-tu="15000000" data-den="20000000">
+                        15 - 20 triệu
+                    </label>
+                    <label class="muc-gia">
+                        <input type="checkbox" name="gia" data-tu="20000000" data-den="25000000">
+                        20 - 25 triệu
+                    </label>
+                    <label class="muc-gia">
+                        <input type="checkbox" name="gia" data-tu="25000000" data-den="30000000">
+                        25 - 30 triệu
+                    </label>
+                    <label class="muc-gia">
+                        <input type="checkbox" name="gia" data-tu="30000000" data-den="">
+                        30 triệu trở lên
+                    </label>
+                </div>
+
+                <button class="timkiem1" type="button" id="xoa-bo-loc">Xoá bộ lọc</button>
+            </form>
+            <p id="khong-tim-thay" hidden>Không tìm thấy laptop phù hợp</p>
+            <div id="danh-sach-san-pham">
+                <article id="sp-1" data-id="1" data-loai="hoc-tap" data-hang="ASUS" data-gia="17890000"
+                    data-soluong="10">
+                    <h3>ASUS Vivobook 14 X1404MA-EB027W</h3>
+                    <img src="images/vivobook14.jpn.webp" alt="Ảnh minh họa ASUS Vivobook 14 màu bạc" width="240">
+                    <p>Laptop màu bạc,phù hợp học tập và làm việc.</p>
+                    <ul>
+                        <li>CPU: Intel Core 3 304</li>
+                        <li>RAM: 8GB</li>
+                        <li>SSD: 512 GB</li>
+                        <li>Màn hình: 14 inch FHD</li>
+                        <li>Hệ điều hành: Windows 11</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>17.890.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="1" data-ma="X1404MA-EB027W">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-2" data-id="2" data-loai="van-phong" data-hang="ASUS" data-gia="20490000"
+                    data-soluong="10">
+                    <h3>ASUS Vivobook Go 15 E1504FA-BQ374W</h3>
+                    <img src="images/vivobook-go-15.webp" alt="Laptop ASUS Vivobook Go 15 E1504FA-BQ374W" width="240">
+                    <p>Phù hợp học, soạn tài liệu, họp trực tuyến và các công việc văn phòng hằng ngày.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 5 7520U</li>
+                        <li>RAM: 8 GB</li>
+                        <li>SSD: 512 GB</li>
+                        <li>Màn hình: 15,6 inch Full HD</li>
+                        <li>Hệ điều hành: Windows 11</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>20.490.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="2" data-ma="E1504FA-BQ374W">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-3" data-id="3" data-loai="hoc-tap" data-hang="Acer" data-gia="18690000"
+                    data-soluong="10">
+                    <h3>Acer Aspire Lite 15 AL15-49P-R6XX</h3>
+                    <img src="images/acer-aspire-lite-15.webp" alt="Laptop Acer Aspire Lite 15" width="240">
+                    <p>Phù hợp cho học tập và các công việc hằng ngày.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 5 7430U</li>
+                        <li>RAM: 8 GB</li>
+                        <li>SSD: 512 GB</li>
+                        <li>Màn hình: 15,6 inch Full HD</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">18.690.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="3" data-ma="NX.DRZSV.002">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-4" data-id="4" data-loai="van-phong" data-hang="MSI" data-gia="19190000"
+                    data-soluong="10">
+                    <h3>MSI Modern 15 F13MG (667VN_16GB)</h3>
+                    <img src="images/shopping.webp" alt="Laptop MSI Modern 15 màu bạc" width="240">
+                    <p>Phù hợp cho công việc văn phòng và sử dụng hằng ngày.</p>
+                    <ul>
+                        <li>CPU: Intel Core i5-1334U</li>
+                        <li>RAM: 16 GB</li>
+                        <li>SSD: 512 GB</li>
+                        <li>Màn hình: 15,6 inch Full HD</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">19.190.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="4" data-ma="667VN_16GB">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-5" data-id="5" data-loai="hoc-tap" data-hang="HP" data-gia="21990000" data-soluong="10">
+                    <h3>HP 15 fc0023AU (D0BH1PA)</h3>
+                    <img src="images/hp-15-fc0023au.jpg" alt="Laptop HP 15 fc0023AU" width="240">
+                    <p>Phù hợp cho học tập và các công việc hằng ngày.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 5 7520U</li>
+                        <li>RAM: 16 GB</li>
+                        <li>SSD: 512 GB</li>
+                        <li>Màn hình: 15,6 inch Full HD</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">21.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="5" data-ma="D0BH1PA">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-6" data-id="6" data-loai="van-phong" data-hang="Dell" data-gia="23390000"
+                    data-soluong="10">
+                    <h3>Dell 15 DC15250 (71092479)</h3>
+                    <img src="images/dell-15-dc15250.jpg" alt="Laptop Dell 15 DC15250 màu bạc" width="240">
+                    <p>Phù hợp cho công việc văn phòng và sử dụng hằng ngày.</p>
+                    <ul>
+                        <li>CPU: Intel Core i5-1334U</li>
+                        <li>RAM: 16 GB</li>
+                        <li>SSD: 512 GB</li>
+                        <li>Màn hình: 15,6 inch Full HD</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">23.390.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="6" data-ma="71092479">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-7" data-id="7" data-loai="gaming" data-hang="HP" data-gia="43990000" data-soluong="10">
+                    <h3>HP Victus 16-s0138AX 9Q985PA</h3>
+                    <img src="images/1072101127_laptop_hp_victus_16_s0138ax_9q985pa__1_.jpg"
+                        alt="Laptop HP Victus 16-s0138AX 9Q985PA" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 4070, màn hình 144 Hz.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 7-7840HS</li>
+                        <li>RAM: 32GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 4070</li>
+                        <li>Màn hình: 16.1 inch, 144 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">43.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="7" data-ma="9Q985PA">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-8" data-id="8" data-loai="gaming" data-hang="HP" data-gia="39790000" data-soluong="10">
+                    <h3>HP OMEN 16-am0178TX BX8Y4PA</h3>
+                    <img src="images/1072101126_laptop_hp_omen_16_am0178tx_bx8y4pa__1_.jpg"
+                        alt="Laptop HP OMEN 16-am0178TX BX8Y4PA" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 5060, màn hình 165 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core Ultra 5 225H</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 5060</li>
+                        <li>Màn hình: 16.0 inch, 165 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">39.790.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="8" data-ma="BX8Y4PA">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-9" data-id="9" data-loai="gaming" data-hang="HP" data-gia="33990000" data-soluong="10">
+                    <h3>HP Victus 16-s1142AX AZ0C7PA</h3>
+                    <img src="images/1072101122_laptop_hp_victus_16_s1142ax_az0c7pa__1_.jpg"
+                        alt="Laptop HP Victus 16-s1142AX AZ0C7PA" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 4060, màn hình 165 Hz.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 7 8845HS</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 4060</li>
+                        <li>Màn hình: 16.1 inch, 165 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">33.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="9" data-ma="AZ0C7PA">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-10" data-id="10" data-loai="gaming" data-hang="Acer" data-gia="33990000"
+                    data-soluong="10">
+                    <h3>Acer Gaming Aspire 7 A715-59G-53RH</h3>
+                    <img src="images/1072101102_laptop_acer_gaming_aspire_7_a715_59g_53rh_nh_dv0sv_001__1_.jpg"
+                        alt="Laptop Acer Gaming Aspire 7 A715-59G-53RH" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 4050, màn hình 144 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core 5 processor 210H</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 4050</li>
+                        <li>Màn hình: 15.6 inch, 144 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">33.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="10" data-ma="A715-59G-53RH">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-11" data-id="11" data-loai="gaming" data-hang="ASUS" data-gia="156990000"
+                    data-soluong="10">
+                    <h3>ASUS ROG Zephyrus G16 GU606AX-TB042WS</h3>
+                    <img src="./images/1072100749_laptop_asus_rog_zephyrus_g16_gu606ax_tb042ws__10_.png"
+                        alt="Laptop ASUS ROG Zephyrus G16 GU606AX-TB042WS" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 5090, màn hình 240 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core Ultra 9 386H</li>
+                        <li>RAM: 64GB</li>
+                        <li>SSD: 2TB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 5090</li>
+                        <li>Màn hình: 16 inch, 240 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">156.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="11" data-ma="GU606AX-TB042WS">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-12" data-id="12" data-loai="gaming" data-hang="Gigabyte" data-gia="39990000"
+                    data-soluong="10">
+                    <h3>Gigabyte GAMING A16 CVHI3VNC94SH</h3>
+                    <img src="images/1072100978_laptop_gigabyte_gaming_a16_cvhi3vnc94sh__4_.png"
+                        alt="Laptop Gigabyte GAMING A16 CVHI3VNC94SH" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 5060, màn hình 165 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core i7-13620H</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 1TB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 5060</li>
+                        <li>Màn hình: 16 inch, 165 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">39.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="12" data-ma="CVHI3VNC94SH">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-13" data-id="13" data-loai="van-phong" data-hang="MSI" data-gia="11290000"
+                    data-soluong="10">
+                    <h3>MSI Modern 14 C7M-221VN</h3>
+                    <img src="images/2023_8_14_638276090577856519_msiI-modern-14-c7m-221vn-r7-7730u-1.webp"
+                        alt="Laptop MSI Modern 14 C7M-221VN" width="240">
+                    <p>Laptop văn phòng, RAM 8 GB, SSD 512 GB, màn hình 14.0 inch.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 7 7730U</li>
+                        <li>RAM: 8GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Màn hình: 14.0 inch, 60 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">11.290.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="13" data-ma="C7M-221VN">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-14" data-id="14" data-loai="van-phong" data-hang="MSI" data-gia="17790000"
+                    data-soluong="10">
+                    <h3>MSI Modern 15 F13MG 667VN</h3>
+                    <img src="images/1072100858_laptop_msi_modern_15_f13mg_667vn__2_.png"
+                        alt="Laptop MSI Modern 15 F13MG 667VN" width="240">
+                    <p>Laptop văn phòng, RAM 8 GB, SSD 512 GB, màn hình 15.6 inch.</p>
+                    <ul>
+                        <li>CPU: Intel Core i5-1334U</li>
+                        <li>RAM: 8GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Màn hình: 15.6 inch</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">17.790.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="14" data-ma="667VN">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-15" data-id="15" data-loai="van-phong" data-hang="Lenovo" data-gia="22990000"
+                    data-soluong="10">
+                    <h3>Lenovo V15 G5 IRL 83HF00BSVA</h3>
+                    <img src="images/1072100980_laptop_lenovo_v15_g5_irl_83hf00bsva.png"
+                        alt="Laptop Lenovo V15 G5 IRL 83HF00BSVA" width="240">
+                    <p>Laptop văn phòng, RAM 16 GB, SSD 512 GB, màn hình 15.6 inch.</p>
+                    <ul>
+                        <li>CPU: Intel Core i5-13420H</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Màn hình: 15.6 inch</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">22.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="15" data-ma="83HF00BSVA">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-16" data-id="16" data-loai="van-phong" data-hang="Dell" data-gia="26490000"
+                    data-soluong="10">
+                    <h3>Dell 16 DC16250-71092481</h3>
+                    <img src="images/1072101018_laptop_dell_16_dc16250_71092481__1_.jpg"
+                        alt="Laptop Dell 16 DC16250-71092481" width="240">
+                    <p>Laptop văn phòng, RAM 16 GB, SSD 1 TB, màn hình 16.0 inch.</p>
+                    <ul>
+                        <li>CPU: Intel Core 5 120U</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 1TB</li>
+                        <li>Màn hình: 16.0 inch, 60 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">26.490.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="16" data-ma="DC16250-71092481">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-17" data-id="17" data-loai="gaming" data-hang="ASUS" data-gia="28990000"
+                    data-soluong="10">
+                    <h3>ASUS TUF Gaming A15 FA506NCG</h3>
+                    <img src="images/1072101022_laptop_asus_tuf_gaming_a15_fa506ncg_hn329w__1_.jpg"
+                        alt="Laptop ASUS TUF Gaming A15 FA506NCG" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 3050, màn hình 144 Hz.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 7 8845HS</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 3050</li>
+                        <li>Màn hình: 15.6 inch, 144 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong style="color: red;">28.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="17" data-ma="FA506NCG">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-18" data-id="18" data-loai="gaming" data-hang="Acer" data-gia="29990000"
+                    data-soluong="10">
+                    <h3>Acer Nitro ProPanel ANV15-42-R0QM</h3>
+                    <img src="images/1072101096_laptop_acer_nitro_propanel_anv15_42_r0qm_nh_qudsv_001__1_.jpg"
+                        alt="Laptop Acer Nitro ProPanel ANV15-42-R0QM" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 3050, màn hình 180 Hz.</p>
+                    <ul>
+                        <li>CPU: AMD Ryzen 5 7640HS</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 3050</li>
+                        <li>Màn hình: 15.6 inch, 180 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>29.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="18" data-ma="ANV15-42-R0QM">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-19" data-id="19" data-loai="gaming" data-hang="Lenovo" data-gia="52990000"
+                    data-soluong="10">
+                    <h3>Lenovo LOQ 15IRX10 83JE01N4VN</h3>
+                    <img src="images/1072101094_laptop_lenovo_loq_15irx10_83je01n4vn__1_.jpg"
+                        alt="Laptop Lenovo LOQ 15IRX10 83JE01N4VN" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 5050, màn hình 144 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core i7-14650HX</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 5050</li>
+                        <li>Màn hình: 15.6 inch, 144 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>52.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="19" data-ma="83JE01N4VN">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-20" data-id="20" data-loai="gaming" data-hang="MSI" data-gia="27690000"
+                    data-soluong="10">
+                    <h3>MSI Katana 15 B13UDXK</h3>
+                    <img src="images/1072101078_laptop_msi_katana_15_b13udxk_2412vn__1_.jpg"
+                        alt="Laptop MSI Katana 15 B13UDXK" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 3050, màn hình 144 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core i5-13420H</li>
+                        <li>RAM: 8GB</li>
+                        <li>SSD: 1TB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 3050</li>
+                        <li>Màn hình: 15.6 inch, 144 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>27.690.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="20" data-ma="B13UDXK">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-21" data-id="21" data-loai="gaming" data-hang="Acer" data-gia="31990000"
+                    data-soluong="10">
+                    <h3>Acer Gaming Nitro Lite 16 NL16-71G</h3>
+                    <img src="images/1072101098_laptop_acer_gaming_nitro_lite_16_nl16_71g_71fn_nh_d5asv_003__1_.jpg"
+                        alt="Laptop Acer Gaming Nitro Lite 16 NL16-71G" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 4050, màn hình 180 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core i7-13620H</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 4050</li>
+                        <li>Màn hình: 16 inch, 180 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>31.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="21" data-ma="NL16-71G">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-22" data-id="22" data-loai="gaming" data-hang="Lenovo" data-gia="25990000"
+                    data-soluong="10">
+                    <h3>Lenovo LOQ 15IRH11E 83Y9003VVN</h3>
+                    <img src="images/1072101087_laptop_lenovo_loq_15irh11e_83y9003vvn__1_.jpg"
+                        alt="Laptop Lenovo LOQ 15IRH11E 83Y9003VVN" width="240">
+                    <p>Laptop gaming, card đồ họa NVIDIA GeForce RTX 3050, màn hình 165 Hz.</p>
+                    <ul>
+                        <li>CPU: Intel Core 5 205H</li>
+                        <li>RAM: 8GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Card đồ họa: NVIDIA GeForce RTX 3050</li>
+                        <li>Màn hình: 15.3 inch, 165 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>25.990.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="22" data-ma="83Y9003VVN">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-23" data-id="23" data-loai="van-phong" data-hang="ASUS" data-gia="15490000"
+                    data-soluong="10">
+                    <h3>ASUS ExpertBook P1503CVA-C3U08-50W</h3>
+                    <img src="images/1072100970_laptop_asus_expertbook_p1503cva_c3u08_50w__2_.png"
+                        alt="Laptop ASUS ExpertBook P1503CVA-C3U08-50W" width="240">
+                    <p>Laptop văn phòng, RAM 8 GB, SSD 512 GB, màn hình 15.6 inch.</p>
+                    <ul>
+                        <li>CPU: Intel Core 3 Processor 100U 1.2 GHz</li>
+                        <li>RAM: 8GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Màn hình: 15.6 inch, 60 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>15.490.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="23" data-ma="P1503CVA-C3U08-50W">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+                <article id="sp-24" data-id="24" data-loai="hoc-tap" data-hang="Acer" data-gia="22690000"
+                    data-soluong="10">
+                    <h3>Acer Aspire Go 14 AG14-72P-563L</h3>
+                    <img src="images/1072100979_laptop_acer_aspire_go_14_ag14_72p_563l_nx_jsbsv_002__3_.png"
+                        alt="Laptop Acer Aspire Go 14 AG14-72P-563L" width="240">
+                    <p>Laptop học tập, RAM 16 GB, SSD 512 GB, màn hình 14 inch.</p>
+                    <ul>
+                        <li>CPU: Intel Core 5 processor 120U</li>
+                        <li>RAM: 16GB</li>
+                        <li>SSD: 512GB</li>
+                        <li>Màn hình: 14 inch, 60 Hz</li>
+                    </ul>
+                    <p>Giá tham khảo: <strong>22.690.000 đ</strong></p>
+                    <div style="margin:10px">
+                        <button type="button" class="them-vao-gio" data-id="24" data-ma="AG14-72P-563L">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
+                </article>
+            </div>
+            <div id="phan-trang">
+                <button type="button" id="trang-truoc">Trang trước</button>
+                <span id="so-trang">Trang 1</span>
+                <button type="button" id="trang-sau">Trang sau</button>
+            </div>
+        </section>
+        <!-- Khung chi tiết sản phẩm -->
+        <section id="chi-tiet-san-pham" class="chi-tiet-san-pham" hidden>
+            <button type="button" class="quay-lai-danh-sach">
+                <i class="fa-solid fa-arrow-left"></i> Quay về danh sách sản phẩm
+            </button>
+            <div class="product_info">
+
+                <div class="chi-tiet-container">
+                    <!-- Cột trái: Hình ảnh -->
+                    <div class="chi-tiet-hinh">
+                        <img id="ct-hinh" src="" alt="">
+                    </div>
+
+                    <!-- Cột phải: Thông tin -->
+                    <div class="chi-tiet-thong-tin">
+                        <h2 id="ct-ten"></h2>
+
+                        <div class="gia-box">
+                            <span class="gia-hien-tai" id="ct-gia"></span>
+                        </div>
+
+                        <div class="bao-hanh">
+                            <span><i class="fa-solid fa-shield"></i> Bảo hành: 12 tháng</span>
+                        </div>
+
+                        <div class="mo-ta-ngan">
+                            <h3>Mô tả sản phẩm</h3>
+                            <p id="ct-mota"></p>
+                        </div>
+
+                        <!-- Số lượng -->
+                        <div class="so-luong-box">
+                            <label>Số lượng:</label>
+                            <div class="so-luong-control">
+                                <button type="button" id="giam-sl">−</button>
+                                <input type="number" id="so-luong" value="1" min="1" max="10">
+                                <button type="button" id="tang-sl">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Hai nút hành động -->
+                        <div class="nhom-nut-hanh-dong">
+                            <button type="button" class="them-vao-gio nut-them-gio" id="ct-them-gio" data-id=""
+                                data-ma="">
+                                <i class="fa-solid fa-cart-plus"></i> THÊM VÀO GIỎ HÀNG
+                            </button>
+
+                            <button type="button" class="nut-mua-ngay" id="buy" data-id="" data-ma="">
+                                Mua ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bảng thông số kỹ thuật -->
+                <div class="thong-so-ky-thuat">
+                    <h3>Thông số kỹ thuật chi tiết</h3>
+                    <div class="bang-cuon">
+                        <table>
+                            <tbody id="ct-bang"></tbody>
+                        </table>
+                    </div>
+                </div>
+        </section>
+        <!-- Gio hang -->
+        <div class="cart_ui" hidden>
+            <div class="top">
+                <button type="button" class="tiep-tuc">← Quay về trang chủ </button>
+                <h4 class="remove">Xóa toàn bộ giỏ hàng</h4>
+            </div>
+
+            <div id="cart-list"></div> <!-- JS đổ các dòng sản phẩm vào đây -->
+
+            <div class="sumall">
+
+                <span>Tổng tiền: <strong id="money">0 VNĐ</strong></span>
+            </div>
+        </div>
+        <section id="account" hidden>
+            <h1>Thông tin tài khoản</h1>
+            <div>
+                <form class="info-account">
+                    <h3>Tên đăng nhập</h3>
+                    <div class="elementInfo">
+                        <input type="text" id="user_account" disabled>
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/edit.svg" alt="k co hinh" id="edit_user">
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/save.svg" alt="k co hinh" class="saveInfo">
+                    </div>
+                    <h3>Mật khẩu</h3>
+                    <div class="elementInfo">
+                        <input type="password" id="pass_account" disabled>
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/edit.svg" alt="k co hinh" id="edit_pass">
+                    </div>
+                    <h3>Email</h3>
+                    <div class="elementInfo">
+                        <input type="text" id="email_account" disabled>
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/edit.svg" alt="k co hinh" id="edit_email">
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/save.svg" alt="k co hinh" class="saveInfo2">
+                    </div>
+                    <h3>Địa chỉ</h3>
+                    <div class="elementInfo">
+                        <input type="text" id="address_account" disabled>
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/edit.svg" alt="k co hinh" id="edit_address">
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/save.svg" alt="k co hinh" class="saveInfo3">
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section id="history" hidden>
+
+        </section>
+    </main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+html {
+    scroll-padding-top: 90px;
+}
+
+body {
+    margin: 0;
+    align-items: center;
+    font-family: "Noto Sans", sans-serif;
+    background-color: #F5F5F5;
+    color: #222222;
+}
+
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 12px;
+    background-color: #174a7e;
+    color: white;
+    padding: 14px 24px;
+}
+
+main {
+    background-color: #dce9f7;
+    width: 90%;
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 24px;
+    box-sizing: border-box;
+    min-height: 60vh;
+    border-radius: 16px;
+}
+
+.login-admin {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+}
+
+.contain {
+    display: none;
+}
+
+.menu {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    border: #174a7e solid 2px;
+    border-radius: 15px;
+    height: 70px;
+    width: 100%;
+    background-color: #174a7e;
+}
+
+.menu button {
+    border-radius: 15px;
+    font-size: 125%;
+    height: 70px;
+    width: 100%;
+    border: white 2px;
+    background-color: white;
+}
+
+.menu button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.accounts {
+    border: solid 2px black;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.account_Btn {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: #174a7e 2px solid;
+}
+
+.account_Btn:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.account_Btn img {
+    height: 100%;
+    width: 100%;
+}
+
+.accounts tr {
+    border: solid 2px black;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.accounts td {
+    border: solid 2px black;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.status-dot.unlocked {
+    background-color: #2ecc71;
+}
+
+.status-dot.locked {
+    background-color: #e74c3c;
+}
+
+.accounts input[type=text] {
+    width: 90%;
+    padding: 6px;
+    box-sizing: border-box;
+}
