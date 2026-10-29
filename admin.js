@@ -82,6 +82,9 @@ function _createInput(value) {
     input.disabled = true;
     return input;
 }
+function _isValidPhone(phone) {
+    return /^0\d{9}$/.test(phone); // 10 số, bắt đầu bằng 0
+}
 
 function _showAccounts() {
     accountsBody.innerHTML = "";
@@ -90,17 +93,21 @@ function _showAccounts() {
         const tr = document.createElement("tr");
         tr.dataset.id = acc.id;
 
-        const tdUser = document.createElement("td");
-        const tdPass = document.createElement("td");
-        const tdEmail = document.createElement("td");
-        const tdAddress = document.createElement("td");
-        const tdLock = document.createElement("td");
-        const tdSelect = document.createElement("td");
+const tdUser = document.createElement("td");
+const tdFullname = document.createElement("td");
+const tdPhone = document.createElement("td");
+const tdPass = document.createElement("td");
+const tdEmail = document.createElement("td");
+const tdAddress = document.createElement("td");
+const tdLock = document.createElement("td");
+const tdSelect = document.createElement("td");
 
-        tdUser.appendChild(_createInput(acc.username));
-        tdPass.appendChild(_createInput(acc.password));
-        tdEmail.appendChild(_createInput(acc.email || ""));
-        tdAddress.appendChild(_createInput(acc.address || ""));
+tdUser.appendChild(_createInput(acc.username));
+tdFullname.appendChild(_createInput(acc.fullname || ""));
+tdPhone.appendChild(_createInput(acc.phone || ""));
+tdPass.appendChild(_createInput(acc.password));
+tdEmail.appendChild(_createInput(acc.email || ""));
+tdAddress.appendChild(_createInput(acc.address || ""));
 
         const dot = document.createElement("span");
         dot.className = "status-dot " + (acc.locked ? "locked" : "unlocked");
@@ -111,7 +118,7 @@ function _showAccounts() {
         cb.dataset.id = acc.id;
         tdSelect.appendChild(cb);
 
-        tr.append(tdUser, tdPass, tdEmail, tdAddress, tdLock, tdSelect);
+        tr.append(tdUser, tdFullname, tdPhone, tdPass, tdEmail, tdAddress, tdLock, tdSelect);
         accountsBody.appendChild(tr);
     }
 }
@@ -146,46 +153,49 @@ function _stopEdit() {
 
 
 function _new() {
-    if (_isEditing()) return;
+const username = prompt("Nhập username:");
+if (username === null) return;
+const fullname = prompt("Nhập họ tên:");
+if (fullname === null) return;
+const phone = prompt("Nhập số điện thoại:");
+if (phone === null) return;
+const password = prompt("Nhập password:");
+if (password === null) return;
+const email = prompt("Nhập email:");
+if (email === null) return;
+const address = prompt("Nhập địa chỉ:");
+if (address === null) return;
 
-    const username = prompt("Nhập username:");
-    if (username === null) return;
-    const password = prompt("Nhập password:");
-    if (password === null) return;
-    const email = prompt("Nhập email:");
-    if (email === null) return;
-    const address = prompt("Nhập địa chỉ:");
-    if (address === null) return;
+if (username.trim() === "" || fullname.trim() === "" || phone.trim() === "" ||
+    password.trim() === "" || email.trim() === "" || address.trim() === "") {
+    alert("Vui lòng nhập đầy đủ thông tin.");
+    return;
+}
+if (!_isValidPhone(phone.trim())) {
+    alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+    return;
+}
 
-    if (username.trim() === "" || password.trim() === "" || email.trim() === "" || address.trim() === "") {
-        alert("Vui lòng nhập đầy đủ thông tin.");
-        return;
-    }
+const accounts = _getAccounts();
+// ... kiểm tra username, email giữ nguyên, thêm:
+const isPhoneTaken = accounts.some(function (acc) {
+    return acc.phone === phone.trim();
+});
+if (isPhoneTaken) {
+    alert("Số điện thoại đã tồn tại.");
+    return;
+}
 
-    const accounts = _getAccounts();
-    const isUsernameTaken = accounts.some(function (acc) {
-        return acc.username === username.trim();
-    });
-    if (isUsernameTaken) {
-        alert("Username đã tồn tại.");
-        return;
-    }
-    const isEmailTaken = accounts.some(function (acc) {
-        return acc.email === email.trim();
-    });
-    if (isEmailTaken) {
-        alert("Email đã tồn tại.");
-        return;
-    }
-
-    accounts.push({
-        id: crypto.randomUUID(),
-        username: username.trim(),
-        password: password.trim(),
-        email: email.trim(),
-        address: address.trim(),
-        locked: false
-    });
+accounts.push({
+    id: crypto.randomUUID(),
+    username: username.trim(),
+    fullname: fullname.trim(),
+    phone: phone.trim(),
+    password: password.trim(),
+    email: email.trim(),
+    address: address.trim(),
+    locked: false
+});
     _saveAccounts(accounts);
     _showAccounts();
 }
@@ -230,41 +240,41 @@ function _edit() {
 }
 
 function _save() {
-    const row = accountsBody.querySelector('tr[data-id="' + editingId + '"]');
-    const inputs = row.querySelectorAll("input[type=text]");
-    const username = inputs[0].value.trim();
-    const password = inputs[1].value.trim();
-    const email = inputs[2].value.trim();
-    const address = inputs[3].value.trim();
+const inputs = row.querySelectorAll("input[type=text]");
+const username = inputs[0].value.trim();
+const fullname = inputs[1].value.trim();
+const phone = inputs[2].value.trim();
+const password = inputs[3].value.trim();
+const email = inputs[4].value.trim();
+const address = inputs[5].value.trim();
 
-    if (username === "" || password === "" || email === "" || address === "") {
-        alert("Không được để trống.");
-        return;
-    }
+if (username === "" || fullname === "" || phone === "" || password === "" || email === "" || address === "") {
+    alert("Không được để trống.");
+    return;
+}
+if (!_isValidPhone(phone)) {
+    alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+    return;
+}
 
-    const accounts = _getAccounts();
-    const isUsernameTaken = accounts.some(function (acc) {
-        return acc.username === username && acc.id !== editingId;
-    });
-    if (isUsernameTaken) {
-        alert("Username đã tồn tại.");
-        return;
-    }
-    const isEmailTaken = accounts.some(function (acc) {
-        return acc.email === email && acc.id !== editingId;
-    });
-    if (isEmailTaken) {
-        alert("Email đã tồn tại.");
-        return;
-    }
+// ... kiểm tra username, email giữ nguyên, thêm:
+const isPhoneTaken = accounts.some(function (acc) {
+    return acc.phone === phone && acc.id !== editingId;
+});
+if (isPhoneTaken) {
+    alert("Số điện thoại đã tồn tại.");
+    return;
+}
 
-    const account = accounts.find(function (acc) {
-        return acc.id === editingId;
-    });
-    account.username = username;
-    account.password = password;
-    account.email = email;
-    account.address = address;
+const account = accounts.find(function (acc) {
+    return acc.id === editingId;
+});
+account.username = username;
+account.fullname = fullname;
+account.phone = phone;
+account.password = password;
+account.email = email;
+account.address = address;
 
     _saveAccounts(accounts);
     _stopEdit();

@@ -6,6 +6,8 @@ const _signupTab = document.querySelector("#signup_tab");
 const inputSignupUser = document.getElementById("user");
 const inputSignupPass = document.getElementById("pass");
 const inputAddress = document.getElementById("address");
+const inputFullname = document.getElementById("fullname");
+const inputPhone = document.getElementById("phone");
 const inputEmail = document.getElementById("email");
 const signupBtn = document.getElementById("signup_Btn");
 const inputSigninUser = document.getElementById("user1");
@@ -19,6 +21,10 @@ const infoUser = document.getElementById("user_account");
 const infoPass = document.getElementById("pass_account");
 const infoEmail = document.getElementById("email_account");
 const infoAddress = document.getElementById("address_account");
+const infoFullname = document.getElementById("fullname_account");
+const infoPhone = document.getElementById("phone_account");
+const edit_Fullname = document.querySelector("#edit_fullname");
+const edit_Phone = document.querySelector("#edit_phone");
 const edit_User = document.querySelector("#edit_user");
 const edit_Pass = document.querySelector("#edit_pass");
 const edit_Email = document.querySelector("#edit_email");
@@ -27,6 +33,8 @@ const saveInfo = document.querySelector(".saveInfo");
 const saveInfo1 = document.querySelector(".saveInfo1");
 const saveInfo2 = document.querySelector(".saveInfo2");
 const saveInfo3 = document.querySelector(".saveInfo3");
+const saveInfo4 = document.querySelector(".saveInfo4");
+const saveInfo5 = document.querySelector(".saveInfo5");
 const _checkPass = document.querySelector("#check_pass");
 const oldPass = document.querySelector("#old_pass");
 const newPass = document.querySelector("#new_pass");
@@ -35,7 +43,9 @@ const newPass = document.querySelector("#new_pass");
 function _getAccounts() {
     return JSON.parse(localStorage.getItem("accounts")) || [];
 }
-
+function _isValidPhone(phone) {
+    return /^0\d{9}$/.test(phone); // 10 số, bắt đầu bằng 0
+}
 function _saveAccounts(accounts) {
     localStorage.setItem("accounts", JSON.stringify(accounts));
 }
@@ -112,31 +122,37 @@ window.addEventListener("hashchange", _hashChange);
 
 function _signup() {
     const username = inputSignupUser.value.trim();
+    const fullname = inputFullname.value.trim();
+    const phone = inputPhone.value.trim();
     const password = inputSignupPass.value.trim();
     const email = inputEmail.value.trim();
     const address = inputAddress.value.trim();
-    if (username === "" || password === "" || email === "" || address === "") {
+    if (username === "" || fullname === "" || phone === "" || password === "" || email === "" || address === "") {
         alert("Vui lòng nhập đầy đủ thông tin.");
         return;
     }
+    if (!_isValidPhone(phone)) {
+        alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+        return;
+    }
     const accounts = _getAccounts();
-    const isUsernameTaken = accounts.some(function (acc) {
-        return acc.username === username;
-    });
-    if (isUsernameTaken) {
+    if (accounts.some(function (acc) { return acc.username === username; })) {
         alert("Username đã tồn tại");
         return;
     }
-    const isEmailTaken = accounts.some(function (acc) {
-        return acc.email === email;
-    });
-    if (isEmailTaken) {
+    if (accounts.some(function (acc) { return acc.email === email; })) {
         alert("Email đã tồn tại");
+        return;
+    }
+    if (accounts.some(function (acc) { return acc.phone === phone; })) {
+        alert("Số điện thoại đã tồn tại");
         return;
     }
     const newAccount = {
         id: crypto.randomUUID(),
         username: username,
+        fullname: fullname,
+        phone: phone,
         password: password,
         email: email,
         address: address,
@@ -180,6 +196,7 @@ function _signin() {
 
 //hiện thông tin
 function _showinfo() {
+    document.querySelector(".cart_ui").hidden = true;
     document.getElementById("chi-tiet-san-pham").hidden = true;
     document.getElementById("san-pham").hidden = true;
     document.getElementById("account").hidden = false;
@@ -192,15 +209,96 @@ function _showinfo() {
     infoPass.value = account.password;
     infoEmail.value = account.email;
     infoAddress.value = account.address;
+    infoFullname.value = account.fullname || "";
+    infoPhone.value = account.phone || "";
 
 }
+// Phần Lịch sử đơn hàng
+function _formatMoney(n) {
+    return Number(n).toLocaleString("vi-VN") + " VNĐ";
+}
+
+// chống chèn HTML từ dữ liệu người dùng nhập (họ tên, địa chỉ, ghi chú)
+function _escapeHtml(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+}
+
+// trạng thái đơn: đơn cũ "Chờ xử lý" coi như "Đang xử lý"
+function _statusInfo(trangThai) {
+    if (trangThai === "Chờ xử lý") trangThai = "Đang xử lý";
+    const cls = trangThai === "Chờ thanh toán" ? "status-wait" : "status-processing";
+    return { text: trangThai, cls: cls };
+}
+
 //hiện lịch sử mua
 function _showhistory() {
+    // --- phần ẩn/hiện giữ như cấu trúc ban đầu ---
+    document.querySelector(".cart_ui").hidden = true;
     document.getElementById("chi-tiet-san-pham").hidden = true;
     document.getElementById("san-pham").hidden = true;
     document.getElementById("account").hidden = true;
-    document.getElementById("history").hidden = false;
+    const historySection = document.getElementById("history");
+    historySection.hidden = false;
+
+    // --- phần phát triển thêm: đổ danh sách đơn hàng ---
+    const userId = sessionStorage.getItem("currentUserId");
+    const orders = (JSON.parse(localStorage.getItem("orders")) || [])
+        .filter(function (o) { return o.userId === userId; })
+        .reverse();   // đơn mới nhất lên đầu
+
+    let html = "<h1>Lịch sử mua hàng</h1>";
+
+    if (orders.length === 0) {
+        historySection.innerHTML = html + '<p class="history-trong">Bạn chưa có đơn hàng nào.</p>';
+        return;
+    }
+
+    orders.forEach(function (don) {
+        const st = _statusInfo(don.trangThai);
+        const ngay = new Date(don.ngay).toLocaleString("vi-VN");
+        const pt = don.phuongThuc === "online" ? "Thanh toán online" : "Tiền mặt khi nhận hàng";
+        const nn = don.nguoiNhan || {};
+
+        let dong = "";
+        don.items.forEach(function (it) {
+            const sp = (typeof PRODUCTS !== "undefined")
+                ? PRODUCTS.find(function (p) { return p.id === it.id; })
+                : null;
+            dong += `
+            <div class="order-item">
+                ${sp ? `<img src="${_escapeHtml(sp.hinh)}" alt="">` : ""}
+                <div class="order-item-ten">${_escapeHtml(it.ten)}</div>
+                <div class="order-item-sl">x${it.so}</div>
+                <div class="order-item-gia">${_formatMoney(it.gia * it.so)}</div>
+            </div>`;
+        });
+
+        html += `
+        <div class="order-card">
+            <div class="order-head">
+                <div>
+                    <strong>Mã đơn: ${_escapeHtml(don.id.slice(0, 8).toUpperCase())}</strong>
+                    <small>${_escapeHtml(ngay)}</small>
+                </div>
+                <span class="order-status ${st.cls}">${_escapeHtml(st.text)}</span>
+            </div>
+            <div class="order-items">${dong}</div>
+            <div class="order-info">
+                <p><span>Người nhận:</span> ${_escapeHtml(nn.ten)} - ${_escapeHtml(nn.sdt)}</p>
+                <p><span>Địa chỉ:</span> ${_escapeHtml(nn.diaChi)}</p>
+                ${nn.ghiChu ? `<p><span>Ghi chú:</span> ${_escapeHtml(nn.ghiChu)}</p>` : ""}
+                <p><span>Thanh toán:</span> ${pt}</p>
+            </div>
+            <div class="order-total">Tổng tiền: <strong>${_formatMoney(don.tong)}</strong></div>
+        </div>`;
+    });
+
+    historySection.innerHTML = html;
 }
+
+
 //đăng xuất
 function _signout() {
     sessionStorage.removeItem("currentUser");
@@ -214,6 +312,38 @@ signin.addEventListener("click", open_signinTab);
 edit_User.addEventListener("click", function () {
     infoUser.disabled = false;
     saveInfo.style.display = "block";
+    infoFullname.disabled = true;
+    saveInfo4.style.display = "none";
+    infoPhone.disabled = true;
+    saveInfo5.style.display = "none";
+    infoEmail.disabled = true;
+    saveInfo2.style.display = "none";
+    infoAddress.disabled = true;
+    saveInfo3.style.display = "none";
+    infoPass.disabled = true;
+    saveInfo1.style.display = "none";
+});
+edit_Fullname.addEventListener("click", function () {
+    infoUser.disabled = true;
+    saveInfo.style.display = "none";
+    infoFullname.disabled = false;
+    saveInfo4.style.display = "block";
+    infoPhone.disabled = true;
+    saveInfo5.style.display = "none";
+    infoEmail.disabled = true;
+    saveInfo2.style.display = "none";
+    infoAddress.disabled = true;
+    saveInfo3.style.display = "none";
+    infoPass.disabled = true;
+    saveInfo1.style.display = "none";
+});
+edit_Phone.addEventListener("click", function () {
+    infoUser.disabled = true;
+    saveInfo.style.display = "none";
+    infoFullname.disabled = true;
+    saveInfo4.style.display = "none";
+    infoPhone.disabled = false;
+    saveInfo5.style.display = "block";
     infoEmail.disabled = true;
     saveInfo2.style.display = "none";
     infoAddress.disabled = true;
@@ -226,7 +356,12 @@ edit_Pass.addEventListener("click", function () {
     show(_checkPass, "flex");
     saveInfo1.style.display = "block";
 
+    infoUser.disabled = true;
     saveInfo.style.display = "none";
+    infoFullname.disabled = true;
+    saveInfo4.style.display = "none";
+    infoPhone.disabled = true;
+    saveInfo5.style.display = "none";
     infoEmail.disabled = true;
     saveInfo2.style.display = "none";
     infoAddress.disabled = true;
@@ -236,6 +371,10 @@ function _saveEdit(accounts) {
     localStorage.setItem("accounts", JSON.stringify(accounts));
     infoUser.disabled = true;
     saveInfo.style.display = "none";
+    infoFullname.disabled = true;
+    saveInfo4.style.display = "none";
+    infoPhone.disabled = true;
+    saveInfo5.style.display = "none";
     infoEmail.disabled = true;
     saveInfo2.style.display = "none";
     infoAddress.disabled = true;
@@ -246,6 +385,10 @@ function _saveEdit(accounts) {
 edit_Email.addEventListener("click", function () {
     infoUser.disabled = true;
     saveInfo.style.display = "none";
+    infoFullname.disabled = true;
+    saveInfo4.style.display = "none";
+    infoPhone.disabled = true;
+    saveInfo5.style.display = "none";
     infoEmail.disabled = false;
     saveInfo2.style.display = "block";
     infoAddress.disabled = true;
@@ -256,6 +399,10 @@ edit_Email.addEventListener("click", function () {
 edit_Address.addEventListener("click", function () {
     infoUser.disabled = true;
     saveInfo.style.display = "none";
+    infoFullname.disabled = true;
+    saveInfo4.style.display = "none";
+    infoPhone.disabled = true;
+    saveInfo5.style.display = "none";
     infoEmail.disabled = true;
     saveInfo2.style.display = "none";
     infoAddress.disabled = false;
@@ -344,6 +491,44 @@ saveInfo3.addEventListener("click", function () {
     _saveEdit(accounts);
 
 
+});
+saveInfo4.addEventListener("click", function () {
+    const fullname = infoFullname.value.trim();
+    if (fullname === "") {
+        alert("Không được để trống.");
+        return;
+    }
+    const accounts = _getAccounts();
+    const account = accounts.find(function (acc) {
+        return acc.id === sessionStorage.getItem("currentUserId");
+    });
+    account.fullname = fullname;
+    _saveEdit(accounts);
+});
+
+saveInfo5.addEventListener("click", function () {
+    const phone = infoPhone.value.trim();
+    if (phone === "") {
+        alert("Không được để trống.");
+        return;
+    }
+    if (!_isValidPhone(phone)) {
+        alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+        return;
+    }
+    const accounts = _getAccounts();
+    const isPhoneTaken = accounts.some(function (acc) {
+        return acc.phone === phone && acc.id !== sessionStorage.getItem("currentUserId");
+    });
+    if (isPhoneTaken) {
+        alert("Số điện thoại đã tồn tại.");
+        return;
+    }
+    const account = accounts.find(function (acc) {
+        return acc.id === sessionStorage.getItem("currentUserId");
+    });
+    account.phone = phone;
+    _saveEdit(accounts);
 });
 
 for (const btn of closeBtns) {

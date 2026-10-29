@@ -53,10 +53,9 @@
             </a>
         </div>
         <div class="account_tab" id="signin_tab" style="display: none;">
-            <div style="background-color: white; border: solid white; border-radius: 15px; width: 600px;padding: 50px;">
-                <p style="font-size:60px;font-weight: bold;color: black;">Đăng nhập
-                    <button class="closeBtn" type="button">X</button>
-                </p>
+            <div class="auth_card">
+                <button class="closeBtn" type="button" aria-label="Đóng">X</button>
+                <p class="auth_title">Đăng nhập</p>
                 <form>
                     <input type="text" id="user1" placeholder="Tên đăng nhập"
                         style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
@@ -70,15 +69,19 @@
             </div>
         </div>
         <div class="account_tab" id="signup_tab" style="display: none;">
-            <div
-                style="background-color: white; border: solid white ; border-radius: 15px; width: 600px;padding: 50px;">
-                <p style="font-size:60px;font-weight: bold;color: black;">Đăng ký
-                    <button class="closeBtn" type="button">X</button>
-                </p>
+            <div class="auth_card">
+                <button class="closeBtn" type="button" aria-label="Đóng">x</button>
+                <p class="auth_title">Đăng ký</p>
                 <form>
                     <input type="text" id="user" placeholder="Tên đăng nhập"
                         style="height: 40px;width: 240px;border:solid black 1px;border-radius:5px;font-size: 15px;">
                     <br><br>
+                    <input type="text" id="fullname" placeholder="Họ và tên"
+                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"
+                            ><br><br>
+                    <input type="tel" id="phone" placeholder="Số điện thoại"
+                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;">
+                            <br><br>
                     <input type="text" id="email" placeholder="Địa chỉ email"
                         style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
                     <input type="text" id="address" placeholder="Địa chỉ"
@@ -700,19 +703,108 @@
                 </div>
         </section>
         <!-- Gio hang -->
+        <!-- Gio hang -->
         <div class="cart_ui" hidden>
             <div class="top">
                 <button type="button" class="tiep-tuc">← Quay về trang chủ </button>
                 <h4 class="remove">Xóa toàn bộ giỏ hàng</h4>
             </div>
-
+        
             <div id="cart-list"></div> <!-- JS đổ các dòng sản phẩm vào đây -->
-
-            <div class="sumall">
-
-                <span>Tổng tiền: <strong id="money">0 VNĐ</strong></span>
-            </div>
-        </div>
+        
+            <div class="checkout" id="checkout" hidden>
+                <!-- Trái: thông tin người mua (có thể sửa) -->
+                <div class="checkout-box">
+                    <h3 class="checkout-title">THÔNG TIN NGƯỜI MUA</h3>
+                    <p class="checkout-note">Để tiếp tục đặt hàng, quý khách vui lòng kiểm tra thông tin bên dưới</p>
+        
+                    <form id="form-dat-hang" novalidate>
+                        <div class="checkout-row">
+                            <label for="dh-ten">Họ tên<span>*</span></label>
+                            <input type="text" id="dh-ten">
+                        </div>
+                        <div class="checkout-row">
+                            <label for="dh-sdt">SĐT<span>*</span></label>
+                            <input type="tel" id="dh-sdt" placeholder="Ví dụ: 0912345678">
+                        </div>
+                        <div class="checkout-row">
+                            <label for="dh-email">Email<span>*</span></label>
+                            <input type="email" id="dh-email">
+                        </div>
+                        <div class="checkout-row">
+                            <label for="dh-diachi">Địa chỉ<span>*</span></label>
+                            <textarea id="dh-diachi" rows="2"></textarea>
+                        </div>
+                        <div class="checkout-row">
+                            <label for="dh-ghichu">Ghi chú</label>
+                            <textarea id="dh-ghichu" rows="3"></textarea>
+                        </div>
+                        <p class="checkout-loi" id="dh-loi" hidden></p>
+                    </form>
+                </div>
+        
+                <!-- Phải: tổng tiền + nút đặt hàng -->
+                <div class="checkout-box">
+                    <h3 class="checkout-title">TỔNG TIỀN</h3>
+                    <div class="tong-dong">
+                        <span>Số lượng sản phẩm</span>
+                        <span id="checkout-sl">0</span>
+                    </div>
+                    <div class="tong-dong tong-cuoi">
+                        <span>Thành tiền</span>
+                        <strong id="money">0 VNĐ</strong>
+                    </div>
+                    <small class="vat">(Giá đã bao gồm VAT)</small>
+        
+                    <button type="button" id="nut-mo-dat-hang" class="nut-dat-hang">
+                        <i class="fa-solid fa-check"></i> ĐẶT HÀNG
+                    </button>
+                </div>
+            </div> <!-- đóng .checkout -->
+        </div> <!-- đóng .cart_ui -->
+        
+        <!-- Modal xác nhận đặt hàng (nằm NGOÀI .cart_ui) -->
+        <div class="modal-dat-hang" id="modal-dat-hang" hidden>
+            <div class="modal-hop" role="dialog" aria-modal="true" aria-labelledby="modal-tieu-de">
+                <div class="modal-dau">
+                    <h3 id="modal-tieu-de">XÁC NHẬN ĐẶT HÀNG</h3>
+                    <button type="button" id="modal-quay-lai" class="nut-quay-lai-gio">
+                        <i class="fa-solid fa-arrow-left"></i> Quay lại giỏ hàng
+                    </button>
+                </div>
+        
+                <!-- Tóm tắt thông tin (chỉ đọc) -->
+                <div class="xn-thongtin">
+                    <div class="xn-dong"><span>Họ tên</span><strong id="xn-ten"></strong></div>
+                    <div class="xn-dong"><span>SĐT</span><strong id="xn-sdt"></strong></div>
+                    <div class="xn-dong"><span>Email</span><strong id="xn-email"></strong></div>
+                    <div class="xn-dong"><span>Địa chỉ</span><strong id="xn-diachi"></strong></div>
+                    <div class="xn-dong" id="xn-dong-ghichu"><span>Ghi chú</span><strong id="xn-ghichu"></strong></div>
+                </div>
+        
+                <div class="checkout-row">
+                    <label for="dh-thanhtoan">Phương thức thanh toán</label>
+                    <select id="dh-thanhtoan">
+                        <option value="tien-mat" selected>Thanh toán tiền mặt khi nhận hàng</option>
+                        <option value="online">Thanh toán online</option>
+                    </select>
+                </div>
+        
+                <label class="checkout-xacnhan">
+                    <input type="checkbox" id="dh-xacnhan">
+                    Tôi xác nhận thông tin trên là chính xác và đồng ý với điều kiện giao dịch chung của website
+                </label>
+        
+                <p class="checkout-loi" id="xn-loi" hidden></p>
+        
+                <div class="tong-dong tong-cuoi modal-tong">
+                    <span>Thành tiền</span>
+                    <strong id="modal-tong">0 VNĐ</strong>
+                </div>
+        
+                <button type="button" id="nut-dat-hang" class="nut-dat-hang">ĐẶT HÀNG</button>
+            </div> <!-- đóng .modal-hop -->
+        </div> <!-- đóng .modal-dat-hang -->
         <section id="account" hidden>
             <h1>Thông tin tài khoản</h1>
             <div>
@@ -724,6 +816,22 @@
                             src="icon/edit.svg" alt="k co hinh" id="edit_user">
                         <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
                             src="icon/save.svg" alt="k co hinh" class="saveInfo">
+                    </div>
+                    <h3>Họ và tên</h3>
+                    <div class="elementInfo">
+                        <input type="text" id="fullname_account" disabled>
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/edit.svg" alt="k co hinh" id="edit_fullname">
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/save.svg" alt="k co hinh" class="saveInfo4">
+                    </div>
+                    <h3>Số điện thoại</h3>
+                    <div class="elementInfo">
+                        <input type="tel" id="phone_account" disabled>
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/edit.svg" alt="k co hinh" id="edit_phone">
+                        <img style="height: 40px;width: 40px;border: black solid 2px; border-radius: 8px;"
+                            src="icon/save.svg" alt="k co hinh" class="saveInfo5">
                     </div>
                     <h3>Mật khẩu</h3>
                     <div class="elementInfo">
