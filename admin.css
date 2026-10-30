@@ -130,3 +130,205 @@ main {
     padding: 6px;
     box-sizing: border-box;
 }
+
+#products-management {
+    margin-top: 24px;
+    padding: 24px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(23, 74, 126, 0.15);
+}
+
+
+#products-management h2 {
+    margin-top: 0;
+    padding-bottom: 12px;
+    color: #174a7e;
+    border-bottom: 3px solid #174a7e;
+}
+
+#products-management h3 {
+    margin-top: 28px;
+    color: #174a7e;
+}
+
+
+#form-loai {
+    padding: 20px;
+    background-color: #f0f5fb;
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+}
+
+#form-loai p {
+    margin: 0 0 16px;
+}
+
+#form-loai label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+
+#form-loai input {
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #bfd3ea;
+    border-radius: 8px;
+    font: inherit;
+}
+
+#form-loai input:focus {
+    outline: 2px solid #174a7e;
+}
+
+
+#form-loai button {
+    padding: 12px 24px;
+    background-color: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#form-loai button:hover {
+    background-color: #10365d;
+}
+
+
+#products-management table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#products-management th,
+#products-management td {
+    padding: 14px;
+    border: 1px solid #bfd3ea;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+#products-management th {
+    background-color: #174a7e;
+    color: white;
+}
+
+#products-management tbody tr:nth-child(even) {
+    background-color: #f0f5fb;
+}
+
+
+@media (max-width: 600px) {
+    #products-management {
+        padding: 14px;
+    }
+
+    #form-loai {
+        padding: 14px;
+    }
+
+    #products-management th,
+    #products-management td {
+        padding: 8px;
+    }
+}
+#products-management td button {
+    padding: 8px 16px;
+    background-color: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#products-management td button:hover {
+    background-color: #10365d;
+}
+#products-management td button {
+    margin: 4px;
+}
+#products-management .bang-laptop {
+    overflow-x: auto;
+}
+
+#products-management .bang-laptop table {
+    min-width: 650px;
+}
+
+#products-management .bang-laptop th:nth-child(4),
+#products-management .bang-laptop td:nth-child(4) {
+    white-space: nowrap;
+}
+#form-laptop {
+    margin-bottom: 24px;
+    padding: 20px;
+    background-color: #f0f5fb;
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+}
+
+#form-laptop label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#form-laptop input,
+#form-laptop select,
+#form-laptop textarea {
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #bfd3ea;
+    border-radius: 8px;
+    font: inherit;
+}
+
+#form-laptop textarea {
+    resize: vertical;
+}
+
+#form-laptop button {
+    padding: 12px 24px;
+    background-color: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#form-laptop button:hover {
+    background-color: #10365d;
+}
+#products-management .khung-thu-gon {
+    margin: 20px 0;
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#products-management .khung-thu-gon summary {
+    padding: 16px 20px;
+    background-color: #174a7e;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#products-management .khung-thu-gon summary:hover {
+    background-color: #10365d;
+}
+
+#products-management .khung-thu-gon .bang-laptop {
+    padding: 12px;
+}

@@ -585,3 +585,20 @@
     }
 
     ];
+    const laptopDaLuuTrongShop = localStorage.getItem("laptopShop");
+
+if (laptopDaLuuTrongShop !== null) {
+    window.PRODUCTS = JSON.parse(laptopDaLuuTrongShop);
+}
+
+window.LOAI_LAPTOP = [
+    { ma: "hoc-tap", ten: "Laptop học tập" },
+    { ma: "van-phong", ten: "Laptop văn phòng" },
+    { ma: "gaming", ten: "Laptop gaming" }
+];
+
+const loaiDaLuuTrongShop = localStorage.getItem("loaiLaptop");
+
+if (loaiDaLuuTrongShop !== null) {
+    window.LOAI_LAPTOP = JSON.parse(loaiDaLuuTrongShop);
+}

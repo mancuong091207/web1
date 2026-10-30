@@ -11,7 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <script src="Product.js" defer></script>
     <script src="admin.js" defer></script>
+    <script src="admin-san-pham.js" defer></script>
 </head>
 
 <body>
@@ -70,7 +72,164 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="products-management"></div>
+<div id="products-management">
+    <h2>Quản lý loại laptop</h2>
+
+    <form id="form-loai">
+        <p>
+            <label for="ma-loai">Mã loại:</label>
+            <input type="text" id="ma-loai" required>
+        </p>
+
+        <p>
+            <label for="ten-loai">Tên loại:</label>
+            <input type="text" id="ten-loai" required>
+        </p>
+
+        <button type="submit">Thêm loại</button>
+    </form>
+
+    <h3>Danh sách loại laptop</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mã loại</th>
+                <th>Tên loại</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody id="danh-sach-loai">
+        </tbody>
+    </table>
+    <h2>Tỷ lệ lợi nhuận theo loại</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Loại laptop</th>
+            <th>Tỷ lệ lợi nhuận</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody id="bang-loi-nhuan-loai">
+    </tbody>
+</table>
+<details class="khung-thu-gon">
+    <summary>Tỷ lệ lợi nhuận riêng của laptop</summary>
+
+<div class="bang-laptop">
+    <table>
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Tên laptop</th>
+                <th>Tỷ lệ riêng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody id="bang-loi-nhuan-laptop">
+        </tbody>
+    </table>
+</div>
+</details>
+<details class="khung-thu-gon">
+    <summary>Nhập giá vốn</summary>
+
+<div class="bang-laptop">
+    <table>
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Tên laptop</th>
+                <th>Giá vốn mẫu</th>
+                <th>Tỷ lệ áp dụng</th>
+                <th>Giá bán minh họa</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody id="bang-gia-ban">
+        </tbody>
+    </table>
+</div>
+</details>
+    <h2>Quản lý laptop</h2>
+<form id="form-laptop">
+    <p>
+        <label for="ma-laptop">Mã laptop:</label>
+        <input type="text" id="ma-laptop" required>
+    </p>
+
+    <p>
+        <label for="ten-laptop-admin">Tên laptop:</label>
+        <input type="text" id="ten-laptop-admin" required>
+    </p>
+
+    <p>
+        <label for="loai-laptop-admin">Loại laptop:</label>
+        <select id="loai-laptop-admin" required>
+        </select>
+    </p>
+
+    <p>
+        <label for="gia-laptop">Giá bán (đồng):</label>
+        <input type="number" id="gia-laptop" min="1" step="1" required>
+    </p>
+
+    <p>
+        <label for="hinh-laptop">Đường dẫn hình ảnh:</label>
+        <input type="text" id="hinh-laptop"
+               placeholder="images/ten-hinh.jpg" required>
+    </p>
+
+    <p>
+        <label for="mota-laptop">Mô tả:</label>
+        <textarea id="mota-laptop" rows="3" required></textarea>
+    </p>
+
+    <p>
+    <label for="cpu-laptop">CPU:</label>
+    <input type="text" id="cpu-laptop">
+</p>
+
+<p>
+    <label for="ram-laptop">RAM:</label>
+    <input type="text" id="ram-laptop">
+</p>
+
+<p>
+    <label for="ocung-laptop">Ổ cứng:</label>
+    <input type="text" id="ocung-laptop">
+</p>
+
+<p>
+    <label for="manhinh-laptop">Màn hình:</label>
+    <input type="text" id="manhinh-laptop">
+</p>
+    <button type="submit">Thêm laptop</button>
+    <button type="button" id="huy-sua-laptop">Hủy / Nhập lại</button>
+</form>
+<div class="bang-laptop">
+    <table>
+        <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Tên laptop</th>
+                <th>Loại</th>
+                <th>Giá bán</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody id="danh-sach-laptop">
+        </tbody>
+    </table>
+</div>
+</div>
                 <div id="stock-management"></div>
                 <div id="orders-management"></div>
             </div>
