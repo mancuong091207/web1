@@ -649,3 +649,9 @@ main {
 .order-info-box p {
     margin: 4px 0;
 }
+
+.accounts select:disabled {
+    background: #f1f3f5;
+    color: #888;
+    cursor: not-allowed;
+}
