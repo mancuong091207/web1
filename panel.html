@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -13,6 +13,7 @@
         rel="stylesheet">
     <script src="Product.js" defer></script>
     <script src="admin.js" defer></script>
+    <script src="admin-san-pham.js" defer></script>
 </head>
 
 <body>
@@ -71,128 +72,298 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="products-management"></div>
-                <div id="stock-management"></div>
-                 <!-- QUẢN LÝ KHO & PHIẾU NHẬP (TV5) -->
-                    <div class="admin-subtabs">
-                        <button id="subtab-receipts" class="active" onclick="switchStockSubTab('receipts')"><i class="fa-solid fa-file-invoice-dollar"></i> Phiếu Nhập Kho</button>
-                        <button id="subtab-inventory" onclick="switchStockSubTab('inventory')"><i class="fa-solid fa-warehouse"></i> Tra Cứu Tồn Kho</button>
-                        <button id="subtab-card" onclick="switchStockSubTab('card')"><i class="fa-solid fa-chart-line"></i> Thẻ Kho (Nhập-Xuất-Tồn)</button>
-                    </div>
+                <div id="products-management">
+                    <h2>Quản lý loại laptop</h2>
 
-                    <!-- PHIẾU NHẬP KHO -->
-                    <div id="stock-sec-receipts" class="stock-sec">
-                        <div class="admin-action-bar">
-                            <div class="filter-group">
-                                <input type="text" id="receiptSearch" onkeyup="renderReceipts()" placeholder="Tìm mã phiếu / NCC...">
-                                <select id="receiptStatusFilter" onchange="renderReceipts()">
-                                    <option value="ALL">Tất cả trạng thái</option>
-                                    <option value="DRAFT">Chưa hoàn thành (Bản nháp)</option>
-                                    <option value="COMPLETED">Đã hoàn thành (Đã khóa)</option>
-                                </select>
-                            </div>
-                            <button class="btn-primary" onclick="openReceiptModal()"><i class="fa-solid fa-plus"></i> Tạo Phiếu Nhập Mới</button>
-                        </div>
-                        <table class="accounts">
-                            <thead>
-                                <tr>
-                                    <th>Mã Phiếu</th>
-                                    <th>Ngày Nhập</th>
-                                    <th>Nhà Cung Cấp</th>
-                                    <th>Số Mặt Hàng</th>
-                                    <th>Tổng Tiền</th>
-                                    <th>Trạng Thái</th>
-                                    <th>Thao Tác</th>
-                                </tr>
-                            </thead>
-                            <tbody id="receiptTableBody"></tbody>
-                        </table>
-                    </div>
+                    <form id="form-loai">
+                        <p>
+                            <label for="ma-loai">Mã loại:</label>
+                            <input type="text" id="ma-loai" required>
+                        </p>
 
-                    <!-- TRA CỨU TỒN KHO -->
-                    <div id="stock-sec-inventory" class="stock-sec" style="display:none;">
-                        <div id="lowStockAlertBox" class="alert-box">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            <span id="lowStockDetailText">Cảnh báo: 0 sản phẩm sắp hết hàng (&le; 5 sản phẩm).</span>
-                            <button onclick="toggleLowStockFilter()" id="btnFilterLowStock" class="btn-warning">Chỉ xem cảnh báo</button>
-                        </div>
-                        <div class="filter-group margin-v">
-                            <input type="text" id="invSearch" onkeyup="renderInventory()" placeholder="Tìm tên / mã SP...">
-                        </div>
-                        <table class="accounts">
-                            <thead>
-                                <tr>
-                                    <th>Mã SP</th>
-                                    <th>Tên Sản Phẩm</th>
-                                    <th>Loại SP</th>
-                                    <th>Đơn Giá</th>
-                                    <th>Số Lượng Tồn</th>
-                                    <th>Trạng Thái Tồn</th>
-                                </tr>
-                            </thead>
-                            <tbody id="inventoryTableBody"></tbody>
-                        </table>
-                    </div>
+                        <p>
+                            <label for="ten-loai">Tên loại:</label>
+                            <input type="text" id="ten-loai" required>
+                        </p>
 
-                    <!-- THẺ KHO -->
-                    <div id="stock-sec-card" class="stock-sec" style="display:none;">
-                        <div class="filter-group margin-v">
-                            <select id="cardProductSelect" onchange="calculateStockCard()"></select>
-                            <input type="date" id="cardStartDate" onchange="calculateStockCard()">
-                            <input type="date" id="cardEndDate" onchange="calculateStockCard()">
-                        </div>
-                        <div class="kpi-cards">
-                            <div class="kpi-box green"><span>Tổng Nhập</span><strong id="kpiImport">0</strong></div>
-                            <div class="kpi-box red"><span>Tổng Xuất</span><strong id="kpiExport">0</strong></div>
-                            <div class="kpi-box blue"><span>Tồn Cuối</span><strong id="kpiBalance">0</strong></div>
-                        </div>
-                        <table class="accounts">
-                            <thead>
-                                <tr>
-                                    <th>Ngày</th>
-                                    <th>Loại Giao Dịch</th>
-                                    <th>Mã Chứng Từ</th>
-                                    <th>Số Lượng</th>
-                                    <th>Đơn Giá</th>
-                                    <th>Ghi Chú</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cardTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
+                        <button type="submit">Thêm loại</button>
+                    </form>
 
-                <div id="orders-management">
-                    <!-- QUẢN LÝ ĐƠN HÀNG ADMIN (TV5) -->
-                    <div class="filter-group margin-v">
-                        <input type="date" id="orderStartDate" onchange="renderOrders()">
-                        <input type="date" id="orderEndDate" onchange="renderOrders()">
-                        <select id="orderStatusFilter" onchange="renderOrders()">
-                            <option value="ALL">Tất cả tình trạng</option>
-                            <option value="Mới đặt">Mới đặt</option>
-                            <option value="Chờ xử lý">Chờ xử lý</option>
-                            <option value="Đã xử lý">Đã xử lý</option>
-                            <option value="Đã giao">Đã giao</option>
-                            <option value="Hủy">Hủy</option>
-                        </select>
-                        <button onclick="resetOrderFilters()" class="btn-secondary">Xóa bộ lọc</button>
-                    </div>
-                    <table class="accounts">
+                    <h3>Danh sách loại laptop</h3>
+
+                    <table>
                         <thead>
                             <tr>
-                                <th>Mã Đơn</th>
-                                <th>Khách Hàng</th>
-                                <th>Ngày Đặt</th>
-                                <th>Tổng Giá Trị</th>
-                                <th>Tình Trạng</th>
-                                <th>Cập Nhật Trạng Thái</th>
-                                <th>Chi Tiết</th>
+                                <th>Mã loại</th>
+                                <th>Tên loại</th>
+                                <th>Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody id="orderTableBody"></tbody>
+
+                        <tbody id="danh-sach-loai">
+                        </tbody>
                     </table>
+                    <h2>Tỷ lệ lợi nhuận theo loại</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Loại laptop</th>
+                                <th>Tỷ lệ lợi nhuận</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="bang-loi-nhuan-loai">
+                        </tbody>
+                    </table>
+                    <details class="khung-thu-gon">
+                        <summary>Tỷ lệ lợi nhuận riêng của laptop</summary>
+
+                        <div class="bang-laptop">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Tên laptop</th>
+                                        <th>Tỷ lệ riêng</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="bang-loi-nhuan-laptop">
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                    <details class="khung-thu-gon">
+                        <summary>Nhập giá vốn</summary>
+
+                        <div class="bang-laptop">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Tên laptop</th>
+                                        <th>Giá vốn mẫu</th>
+                                        <th>Tỷ lệ áp dụng</th>
+                                        <th>Giá bán minh họa</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="bang-gia-ban">
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                    <h2>Quản lý laptop</h2>
+                    <form id="form-laptop">
+                        <p>
+                            <label for="ma-laptop">Mã laptop:</label>
+                            <input type="text" id="ma-laptop" required>
+                        </p>
+
+                        <p>
+                            <label for="ten-laptop-admin">Tên laptop:</label>
+                            <input type="text" id="ten-laptop-admin" required>
+                        </p>
+
+                        <p>
+                            <label for="loai-laptop-admin">Loại laptop:</label>
+                            <select id="loai-laptop-admin" required>
+                            </select>
+                        </p>
+
+                        <p>
+                            <label for="gia-laptop">Giá bán (đồng):</label>
+                            <input type="number" id="gia-laptop" min="1" step="1" required>
+                        </p>
+                        <p>
+                            <label for="hinh-laptop">Đường dẫn hình ảnh:</label>
+                            <input type="text" id="hinh-laptop" placeholder="images/ten-hinh.jpg" required>
+                        </p>
+
+                        <p>
+                            <label for="mota-laptop">Mô tả:</label>
+                            <textarea id="mota-laptop" rows="3" required></textarea>
+                        </p>
+                        <p>
+                            <label for="cpu-laptop">CPU:</label>
+                            <input type="text" id="cpu-laptop">
+                        </p>
+
+                        <p>
+                            <label for="ram-laptop">RAM:</label>
+                            <input type="text" id="ram-laptop">
+                        </p>
+
+                        <p>
+                            <label for="ocung-laptop">Ổ cứng:</label>
+                            <input type="text" id="ocung-laptop">
+                        </p>
+                        <p>
+                            <label for="manhinh-laptop">Màn hình:</label>
+                            <input type="text" id="manhinh-laptop">
+                        </p>
+                        <button type="submit">Thêm laptop</button>
+                        <button type="button" id="huy-sua-laptop">Hủy / Nhập lại</button>
+                    </form>
+                    <div class="bang-laptop">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mã</th>
+                                    <th>Tên laptop</th>
+                                    <th>Loại</th>
+                                    <th>Giá bán</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="danh-sach-laptop">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="stock-management"></div>
+                <div id="orders-management"></div>
+            </div>
+        </div>
+
+
+
+        <div id="stock-management"></div>
+        <!-- QUẢN LÝ KHO & PHIẾU NHẬP (TV5) -->
+        <div class="admin-subtabs">
+            <button id="subtab-receipts" class="active" onclick="switchStockSubTab('receipts')"><i
+                    class="fa-solid fa-file-invoice-dollar"></i> Phiếu Nhập Kho</button>
+            <button id="subtab-inventory" onclick="switchStockSubTab('inventory')"><i class="fa-solid fa-warehouse"></i>
+                Tra Cứu Tồn Kho</button>
+            <button id="subtab-card" onclick="switchStockSubTab('card')"><i class="fa-solid fa-chart-line"></i>
+                Thẻ Kho (Nhập-Xuất-Tồn)</button>
+        </div>
+
+        <!-- PHIẾU NHẬP KHO -->
+        <div id="stock-sec-receipts" class="stock-sec">
+            <div class="admin-action-bar">
+                <div class="filter-group">
+                    <input type="text" id="receiptSearch" onkeyup="renderReceipts()"
+                        placeholder="Tìm mã phiếu / NCC...">
+                    <select id="receiptStatusFilter" onchange="renderReceipts()">
+                        <option value="ALL">Tất cả trạng thái</option>
+                        <option value="DRAFT">Chưa hoàn thành (Bản nháp)</option>
+                        <option value="COMPLETED">Đã hoàn thành (Đã khóa)</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="openReceiptModal()"><i class="fa-solid fa-plus"></i> Tạo
+                    Phiếu Nhập Mới</button>
+            </div>
+            <table class="accounts">
+                <thead>
+                    <tr>
+                        <th>Mã Phiếu</th>
+                        <th>Ngày Nhập</th>
+                        <th>Nhà Cung Cấp</th>
+                        <th>Số Mặt Hàng</th>
+                        <th>Tổng Tiền</th>
+                        <th>Trạng Thái</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody id="receiptTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- TRA CỨU TỒN KHO -->
+        <div id="stock-sec-inventory" class="stock-sec" style="display:none;">
+            <div id="lowStockAlertBox" class="alert-box">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="lowStockDetailText">Cảnh báo: 0 sản phẩm sắp hết hàng (&le; 5 sản
+                    phẩm).</span>
+                <button onclick="toggleLowStockFilter()" id="btnFilterLowStock" class="btn-warning">Chỉ
+                    xem cảnh
+                    báo</button>
+            </div>
+            <div class="filter-group margin-v">
+                <input type="text" id="invSearch" onkeyup="renderInventory()" placeholder="Tìm tên / mã SP...">
+            </div>
+            <table class="accounts">
+                <thead>
+                    <tr>
+                        <th>Mã SP</th>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Loại SP</th>
+                        <th>Đơn Giá</th>
+                        <th>Số Lượng Tồn</th>
+                        <th>Trạng Thái Tồn</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- THẺ KHO -->
+        <div id="stock-sec-card" class="stock-sec" style="display:none;">
+            <div class="filter-group margin-v">
+                <select id="cardProductSelect" onchange="calculateStockCard()"></select>
+                <input type="date" id="cardStartDate" onchange="calculateStockCard()">
+                <input type="date" id="cardEndDate" onchange="calculateStockCard()">
+            </div>
+            <div class="kpi-cards">
+                <div class="kpi-box green"><span>Tổng Nhập</span><strong id="kpiImport">0</strong>
+                </div>
+                <div class="kpi-box red"><span>Tổng Xuất</span><strong id="kpiExport">0</strong>
+                </div>
+                <div class="kpi-box blue"><span>Tồn Cuối</span><strong id="kpiBalance">0</strong>
                 </div>
             </div>
+            <table class="accounts">
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Loại Giao Dịch</th>
+                        <th>Mã Chứng Từ</th>
+                        <th>Số Lượng</th>
+                        <th>Đơn Giá</th>
+                        <th>Ghi Chú</th>
+                    </tr>
+                </thead>
+                <tbody id="cardTableBody"></tbody>
+            </table>
+        </div>
+        </div>
+
+        <div id="orders-management">
+            <!-- QUẢN LÝ ĐƠN HÀNG ADMIN (TV5) -->
+            <div class="filter-group margin-v">
+                <input type="date" id="orderStartDate" onchange="renderOrders()">
+                <input type="date" id="orderEndDate" onchange="renderOrders()">
+                <select id="orderStatusFilter" onchange="renderOrders()">
+                    <option value="ALL">Tất cả tình trạng</option>
+                    <option value="Mới đặt">Mới đặt</option>
+                    <option value="Chờ xử lý">Chờ xử lý</option>
+                    <option value="Đã xử lý">Đã xử lý</option>
+                    <option value="Đã giao">Đã giao</option>
+                    <option value="Hủy">Hủy</option>
+                </select>
+                <button onclick="resetOrderFilters()" class="btn-secondary">Xóa bộ lọc</button>
+            </div>
+            <table class="accounts">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Khách Hàng</th>
+                        <th>Ngày Đặt</th>
+                        <th>Tổng Giá Trị</th>
+                        <th>Tình Trạng</th>
+                        <th>Cập Nhật Trạng Thái</th>
+                        <th>Chi Tiết</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTableBody"></tbody>
+            </table>
+        </div>
+        </div>
         </div>
     </main>
 
@@ -221,7 +392,8 @@
                 </div>
                 <div class="items-header">
                     <h4>Danh Sách Sản Phẩm Nhập</h4>
-                    <button type="button" id="btnAddReceiptRow" class="btn-small" onclick="addReceiptRow()"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
+                    <button type="button" id="btnAddReceiptRow" class="btn-small" onclick="addReceiptRow()"><i
+                            class="fa-solid fa-plus"></i> Thêm sản phẩm</button>
                 </div>
                 <div id="receiptItemsContainer" class="items-container"></div>
                 <div class="total-summary">
@@ -231,7 +403,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" onclick="closeReceiptModal()">Đóng</button>
                     <button type="submit" id="btnSaveDraft" class="btn-primary">Lưu Bản Nháp</button>
-                    <button type="button" id="btnModalComplete" class="btn-success" onclick="handleModalComplete()"><i class="fa-solid fa-check-circle"></i> Hoàn Thành & Khóa Phiếu</button>
+                    <button type="button" id="btnModalComplete" class="btn-success" onclick="handleModalComplete()"><i
+                            class="fa-solid fa-check-circle"></i> Hoàn Thành & Khóa Phiếu</button>
                 </div>
             </form>
         </div>

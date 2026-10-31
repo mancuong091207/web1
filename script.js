@@ -1,3 +1,93 @@
+const khungLoaiKhach = document.querySelector(".danh-muc-loai");
+const mauLoaiKhach = khungLoaiKhach.querySelector("label").cloneNode(true);
+
+khungLoaiKhach.textContent = "";
+
+function themLoaiChoKhach(ma, ten) {
+    const nhan = mauLoaiKhach.cloneNode(true);
+    const oChon = nhan.querySelector("input");
+
+    oChon.value = ma;
+    oChon.checked = ma === "";
+
+    nhan.querySelector("span:last-child").textContent = ten;
+
+    khungLoaiKhach.appendChild(nhan);
+}
+
+themLoaiChoKhach("", "Tất cả laptop");
+
+for (let i = 0; i < LOAI_LAPTOP.length; i++) {
+    if (LOAI_LAPTOP[i].an !== true) {
+        themLoaiChoKhach(LOAI_LAPTOP[i].ma, LOAI_LAPTOP[i].ten);
+    }
+}
+
+const khungLaptopKhach = document.getElementById("danh-sach-san-pham");
+const mauLaptopKhach = khungLaptopKhach.querySelector("article").cloneNode(true);
+
+khungLaptopKhach.textContent = "";
+
+for (let i = 0; i < PRODUCTS.length; i++) {
+    const laptop = PRODUCTS[i];
+    let loaiDangHien = false;
+
+    for (let j = 0; j < LOAI_LAPTOP.length; j++) {
+        if (LOAI_LAPTOP[j].ma === laptop.loai &&
+            LOAI_LAPTOP[j].an !== true) {
+            loaiDangHien = true;
+            break;
+        }
+    }
+
+    if (laptop.an === true || loaiDangHien === false) {
+        continue;
+    }
+
+    const the = mauLaptopKhach.cloneNode(true);
+
+    the.id = "sp-" + laptop.id;
+    the.dataset.id = laptop.id;
+    the.dataset.loai = laptop.loai;
+    the.dataset.gia = laptop.gia;
+    the.dataset.soluong = laptop.soluong;
+    the.dataset.hang = laptop.hang || "";
+
+    the.querySelector("h3").textContent = laptop.ten;
+    the.querySelector("img").src = laptop.hinh;
+    the.querySelector("img").alt = laptop.ten;
+    the.querySelector("p").textContent = laptop.moTa;
+    the.querySelector("strong").textContent =
+        laptop.gia.toLocaleString("vi-VN") + " đ";
+
+    const thongSo = the.querySelector("ul");
+    thongSo.textContent = "";
+
+    const cacMuc = ["CPU", "RAM", "Ổ cứng", "Màn hình"];
+
+    for (let j = 0; j < cacMuc.length; j++) {
+        const tenMuc = cacMuc[j];
+
+        if (laptop.cauHinh && laptop.cauHinh[tenMuc]) {
+            const muc = document.createElement("li");
+            let noiDung = laptop.cauHinh[tenMuc];
+
+            if (noiDung.length > 55) {
+                noiDung = noiDung.substring(0, 55) + "…";
+            }
+
+            muc.textContent = tenMuc + ": " + noiDung;
+            thongSo.appendChild(muc);
+        }
+    }
+
+    const nutThem = the.querySelector(".them-vao-gio");
+
+    nutThem.dataset.id = laptop.id;
+    nutThem.dataset.ma = laptop.id;
+
+    khungLaptopKhach.appendChild(the);
+}
 const formTimKiem = document.getElementById("tim-kiem");
 const TenLapTop = document.getElementById("ten-laptop");
 const cacLoaiLapTop = document.querySelectorAll('input[name="loai-laptop"]');
@@ -69,7 +159,7 @@ nutXoaBoLoc.addEventListener("click", function () {
     locSanPham();
 });
 function hienThiTrang() {
-     for (const sanPham of cacSanPham) {   // ẩn hết trước, rồi mới hiện thẻ của trang này
+    for (const sanPham of cacSanPham) {   // ẩn hết trước, rồi mới hiện thẻ của trang này
         sanPham.hidden = true;
     }
     const viTriBatDau = (trangHienTai - 1) * soSanPhamMoiTrang;

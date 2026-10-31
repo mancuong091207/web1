@@ -130,246 +130,500 @@ main {
     padding: 6px;
     box-sizing: border-box;
 }
+
+#products-management {
+    margin-top: 24px;
+    padding: 24px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(23, 74, 126, 0.15);
+}
+
+#products-management h2 {
+    margin-top: 0;
+    padding-bottom: 12px;
+    color: #174a7e;
+    border-bottom: 3px solid #174a7e;
+}
+
+#products-management h3 {
+    margin-top: 28px;
+    color: #174a7e;
+}
+
+#form-loai {
+    padding: 20px;
+    background-color: #f0f5fb;
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+}
+
+#form-loai p {
+    margin: 0 0 16px;
+}
+
+#form-loai label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+
+}
+
+#form-loai input {
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #bfd3ea;
+    border-radius: 8px;
+    font: inherit;
+}
+
+#form-loai input:focus {
+    outline: 2px solid #174a7e;
+}
+
+#form-loai button {
+    padding: 12px 24px;
+    background-color: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#form-loai button:hover {
+    background-color: #10365d;
+}
+
+#products-management table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#products-management th,
+#products-management td {
+    padding: 14px;
+    border: 1px solid #bfd3ea;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+#products-management th {
+    background-color: #174a7e;
+    color: white;
+}
+
+#products-management tbody tr:nth-child(even) {
+    background-color: #f0f5fb;
+}
+
+@media (max-width: 600px) {
+    #products-management {
+        padding: 14px;
+    }
+
+    #form-loai {
+        padding: 14px;
+    }
+
+    #products-management th,
+    #products-management td {
+        padding: 8px;
+    }
+}
+
+#products-management td button {
+    padding: 8px 16px;
+    background-color: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#products-management td button:hover {
+    background-color: #10365d;
+}
+
+#products-management td button {
+    margin: 4px;
+}
+
+#products-management .bang-laptop {
+    overflow-x: auto;
+}
+
+#products-management .bang-laptop table {
+    min-width: 650px;
+}
+
+#products-management .bang-laptop th:nth-child(4),
+#products-management .bang-laptop td:nth-child(4) {
+    white-space: nowrap;
+}
+
+#form-laptop {
+    margin-bottom: 24px;
+    padding: 20px;
+    background-color: #f0f5fb;
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+}
+
+#form-laptop label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#form-laptop input,
+#form-laptop select,
+#form-laptop textarea {
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #bfd3ea;
+    border-radius: 8px;
+    font: inherit;
+}
+
+#form-laptop textarea {
+    resize: vertical;
+}
+
+#form-laptop button {
+    padding: 12px 24px;
+    background-color: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+#form-laptop button:hover {
+    background-color: #10365d;
+}
+
+#products-management .khung-thu-gon {
+    margin: 20px 0;
+    border: 1px solid #bfd3ea;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#products-management .khung-thu-gon summary {
+    padding: 16px 20px;
+    background-color: #174a7e;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#products-management .khung-thu-gon summary:hover {
+    background-color: #10365d;
+}
+
+#products-management .khung-thu-gon .bang-laptop {
+    padding: 12px;
+}
+
+
+
 /* Thêm css cho quản lý kho, phiếu nhập và đơn hàng (TV5) */
 .admin-subtabs {
-display: flex;
-gap: 8px;
-margin-bottom: 16px;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .admin-subtabs button {
-padding: 8px 16px;
-border: 1px solid #174a7e;
-background: white;
-color: #174a7e;
-border-radius: 8px;
-cursor: pointer;
-font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid #174a7e;
+    background: white;
+    color: #174a7e;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 .admin-subtabs button.active {
-background: #174a7e;
-color: white;
+    background: #174a7e;
+    color: white;
 }
 
 .admin-action-bar {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 .filter-group {
-display: flex;
-gap: 8px;
-align-items: center;
-flex-wrap: wrap;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .margin-v {
-margin: 12px 0;
+    margin: 12px 0;
 }
 
-.filter-group input, .filter-group select {
-padding: 6px 12px;
-border: 1px solid #ccc;
-border-radius: 6px;
+.filter-group input,
+.filter-group select {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 
 .btn-primary {
-background: #174a7e;
-color: white;
-border: none;
-padding: 8px 16px;
-border-radius: 6px;
-cursor: pointer;
-font-weight: 600;
+    background: #174a7e;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-.btn-primary:hover { background: #0f3560; }
+.btn-primary:hover {
+    background: #0f3560;
+}
 
 .btn-secondary {
-background: #e2e8f0;
-color: #334155;
-border: none;
-padding: 8px 16px;
-border-radius: 6px;
-cursor: pointer;
+    background: #e2e8f0;
+    color: #334155;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .btn-success {
-background: #10b981;
-color: white;
-border: none;
-padding: 8px 16px;
-border-radius: 6px;
-cursor: pointer;
-font-weight: 600;
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-.btn-success:hover { background: #059669; }
+.btn-success:hover {
+    background: #059669;
+}
 
 .btn-warning {
-background: #f59e0b;
-color: white;
-border: none;
-padding: 4px 10px;
-border-radius: 6px;
-cursor: pointer;
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
 .btn-small {
-padding: 4px 10px;
-font-size: 12px;
-background: #174a7e;
-color: white;
-border: none;
-border-radius: 4px;
-cursor: pointer;
+    padding: 4px 10px;
+    font-size: 12px;
+    background: #174a7e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .alert-box {
-background: #fef3c7;
-border: 1px solid #f59e0b;
-color: #92400e;
-padding: 10px 16px;
-border-radius: 8px;
-display: flex;
-align-items: center;
-gap: 12px;
-margin-bottom: 12px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    padding: 10px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .kpi-cards {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 12px;
-margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .kpi-box {
-background: white;
-padding: 12px;
-border-radius: 8px;
-border: 1px solid #cbd5e1;
-text-align: center;
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    text-align: center;
 }
 
-.kpi-box span { display: block; font-size: 12px; color: #64748b; }
-.kpi-box strong { font-size: 20px; }
-.kpi-box.green strong { color: #10b981; }
-.kpi-box.red strong { color: #ef4444; }
-.kpi-box.blue strong { color: #3b82f6; }
+.kpi-box span {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.kpi-box strong {
+    font-size: 20px;
+}
+
+.kpi-box.green strong {
+    color: #10b981;
+}
+
+.kpi-box.red strong {
+    color: #ef4444;
+}
+
+.kpi-box.blue strong {
+    color: #3b82f6;
+}
 
 /* Admin Modal Custom */
 .admin-modal {
-position: fixed;
-inset: 0;
-background: rgba(15, 23, 42, 0.6);
-z-index: 1000;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 16px;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
 }
 
 .admin-modal-content {
-background: white;
-border-radius: 12px;
-width: 100%;
-max-width: 650px;
-padding: 20px;
-box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-max-height: 90vh;
-overflow-y: auto;
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 650px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .confirm-box {
-max-width: 400px;
-text-align: center;
+    max-width: 400px;
+    text-align: center;
 }
 
 .confirm-box .warning-icon {
-font-size: 40px;
-color: #f59e0b;
-margin-bottom: 8px;
+    font-size: 40px;
+    color: #f59e0b;
+    margin-bottom: 8px;
 }
 
 .modal-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-border-bottom: 1px solid #e2e8f0;
-padding-bottom: 10px;
-margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .close-modal-btn {
-background: none;
-border: none;
-font-size: 24px;
-cursor: pointer;
-color: #64748b;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #64748b;
 }
 
 .form-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 12px;
-margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-.form-grid label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-.form-grid input { width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; }
+.form-grid label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.form-grid input {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
 
 .items-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin: 12px 0 6px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0 6px 0;
 }
 
 .items-container {
-max-height: 180px;
-overflow-y: auto;
-border: 1px solid #e2e8f0;
-border-radius: 6px;
-padding: 8px;
-margin-bottom: 12px;
+    max-height: 180px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 12px;
 }
 
 .item-row {
-display: flex;
-gap: 8px;
-margin-bottom: 6px;
-align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    align-items: center;
 }
 
-.item-row select, .item-row input {
-padding: 6px;
-border: 1px solid #ccc;
-border-radius: 4px;
+.item-row select,
+.item-row input {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .total-summary {
-display: flex;
-justify-content: space-between;
-background: #f8fafc;
-padding: 10px;
-border-radius: 6px;
-font-weight: bold;
-margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
 .modal-footer {
-display: flex;
-gap: 8px;
-justify-content: flex-end;
-border-top: 1px solid #e2e8f0;
-padding-top: 12px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 12px;
 }
 
-.justify-center { justify-content: center; }
+.justify-center {
+    justify-content: center;
+}
 
-.badge-draft { background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
-.badge-completed { background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
+.badge-draft {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.badge-completed {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
