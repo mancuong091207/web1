@@ -627,3 +627,25 @@ main {
     border-radius: 12px;
     font-size: 12px;
 }
+
+.logo {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.font-sm {
+    font-size: 13px;
+}
+
+.order-info-box {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background-color: #f0f5fb;
+    border: 1px solid #bfd3ea;
+    border-radius: 8px;
+}
+
+.order-info-box p {
+    margin: 4px 0;
+}

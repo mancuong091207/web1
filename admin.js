@@ -93,21 +93,21 @@ function _showAccounts() {
         const tr = document.createElement("tr");
         tr.dataset.id = acc.id;
 
-const tdUser = document.createElement("td");
-const tdFullname = document.createElement("td");
-const tdPhone = document.createElement("td");
-const tdPass = document.createElement("td");
-const tdEmail = document.createElement("td");
-const tdAddress = document.createElement("td");
-const tdLock = document.createElement("td");
-const tdSelect = document.createElement("td");
+        const tdUser = document.createElement("td");
+        const tdFullname = document.createElement("td");
+        const tdPhone = document.createElement("td");
+        const tdPass = document.createElement("td");
+        const tdEmail = document.createElement("td");
+        const tdAddress = document.createElement("td");
+        const tdLock = document.createElement("td");
+        const tdSelect = document.createElement("td");
 
-tdUser.appendChild(_createInput(acc.username));
-tdFullname.appendChild(_createInput(acc.fullname || ""));
-tdPhone.appendChild(_createInput(acc.phone || ""));
-tdPass.appendChild(_createInput(acc.password));
-tdEmail.appendChild(_createInput(acc.email || ""));
-tdAddress.appendChild(_createInput(acc.address || ""));
+        tdUser.appendChild(_createInput(acc.username));
+        tdFullname.appendChild(_createInput(acc.fullname || ""));
+        tdPhone.appendChild(_createInput(acc.phone || ""));
+        tdPass.appendChild(_createInput(acc.password));
+        tdEmail.appendChild(_createInput(acc.email || ""));
+        tdAddress.appendChild(_createInput(acc.address || ""));
 
         const dot = document.createElement("span");
         dot.className = "status-dot " + (acc.locked ? "locked" : "unlocked");
@@ -153,49 +153,49 @@ function _stopEdit() {
 
 
 function _new() {
-const username = prompt("Nhập username:");
-if (username === null) return;
-const fullname = prompt("Nhập họ tên:");
-if (fullname === null) return;
-const phone = prompt("Nhập số điện thoại:");
-if (phone === null) return;
-const password = prompt("Nhập password:");
-if (password === null) return;
-const email = prompt("Nhập email:");
-if (email === null) return;
-const address = prompt("Nhập địa chỉ:");
-if (address === null) return;
+    const username = prompt("Nhập username:");
+    if (username === null) return;
+    const fullname = prompt("Nhập họ tên:");
+    if (fullname === null) return;
+    const phone = prompt("Nhập số điện thoại:");
+    if (phone === null) return;
+    const password = prompt("Nhập password:");
+    if (password === null) return;
+    const email = prompt("Nhập email:");
+    if (email === null) return;
+    const address = prompt("Nhập địa chỉ:");
+    if (address === null) return;
 
-if (username.trim() === "" || fullname.trim() === "" || phone.trim() === "" ||
-    password.trim() === "" || email.trim() === "" || address.trim() === "") {
-    alert("Vui lòng nhập đầy đủ thông tin.");
-    return;
-}
-if (!_isValidPhone(phone.trim())) {
-    alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
-    return;
-}
+    if (username.trim() === "" || fullname.trim() === "" || phone.trim() === "" ||
+        password.trim() === "" || email.trim() === "" || address.trim() === "") {
+        alert("Vui lòng nhập đầy đủ thông tin.");
+        return;
+    }
+    if (!_isValidPhone(phone.trim())) {
+        alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+        return;
+    }
 
-const accounts = _getAccounts();
-// ... kiểm tra username, email giữ nguyên, thêm:
-const isPhoneTaken = accounts.some(function (acc) {
-    return acc.phone === phone.trim();
-});
-if (isPhoneTaken) {
-    alert("Số điện thoại đã tồn tại.");
-    return;
-}
+    const accounts = _getAccounts();
+    // ... kiểm tra username, email giữ nguyên, thêm:
+    const isPhoneTaken = accounts.some(function (acc) {
+        return acc.phone === phone.trim();
+    });
+    if (isPhoneTaken) {
+        alert("Số điện thoại đã tồn tại.");
+        return;
+    }
 
-accounts.push({
-    id: crypto.randomUUID(),
-    username: username.trim(),
-    fullname: fullname.trim(),
-    phone: phone.trim(),
-    password: password.trim(),
-    email: email.trim(),
-    address: address.trim(),
-    locked: false
-});
+    accounts.push({
+        id: crypto.randomUUID(),
+        username: username.trim(),
+        fullname: fullname.trim(),
+        phone: phone.trim(),
+        password: password.trim(),
+        email: email.trim(),
+        address: address.trim(),
+        locked: false
+    });
     _saveAccounts(accounts);
     _showAccounts();
 }
@@ -240,41 +240,51 @@ function _edit() {
 }
 
 function _save() {
-const inputs = row.querySelectorAll("input[type=text]");
-const username = inputs[0].value.trim();
-const fullname = inputs[1].value.trim();
-const phone = inputs[2].value.trim();
-const password = inputs[3].value.trim();
-const email = inputs[4].value.trim();
-const address = inputs[5].value.trim();
+    const accounts = _getAccounts();
+    const row = accountsBody.querySelector('tr[data-id="' + editingId + '"]');
+    const inputs = row.querySelectorAll("input[type=text]");
+    const username = inputs[0].value.trim();
+    const fullname = inputs[1].value.trim();
+    const phone = inputs[2].value.trim();
+    const password = inputs[3].value.trim();
+    const email = inputs[4].value.trim();
+    const address = inputs[5].value.trim();
 
-if (username === "" || fullname === "" || phone === "" || password === "" || email === "" || address === "") {
-    alert("Không được để trống.");
-    return;
-}
-if (!_isValidPhone(phone)) {
-    alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
-    return;
-}
+    if (username === "" || fullname === "" || phone === "" || password === "" || email === "" || address === "") {
+        alert("Không được để trống.");
+        return;
+    }
+    if (!_isValidPhone(phone)) {
+        alert("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+        return;
+    }
 
-// ... kiểm tra username, email giữ nguyên, thêm:
-const isPhoneTaken = accounts.some(function (acc) {
-    return acc.phone === phone && acc.id !== editingId;
-});
-if (isPhoneTaken) {
-    alert("Số điện thoại đã tồn tại.");
-    return;
-}
+    // ... kiểm tra username, email giữ nguyên, thêm:
+    const isPhoneTaken = accounts.some(function (acc) {
+        return acc.phone === phone && acc.id !== editingId;
+    });
+    if (accounts.some(function (acc) { return acc.username === username.trim(); })) {
+        alert("Username đã tồn tại.");
+        return;
+    }
+    if (accounts.some(function (acc) { return acc.email === email.trim(); })) {
+        alert("Email đã tồn tại.");
+        return;
+    }
+    if (isPhoneTaken) {
+        alert("Số điện thoại đã tồn tại.");
+        return;
+    }
 
-const account = accounts.find(function (acc) {
-    return acc.id === editingId;
-});
-account.username = username;
-account.fullname = fullname;
-account.phone = phone;
-account.password = password;
-account.email = email;
-account.address = address;
+    const account = accounts.find(function (acc) {
+        return acc.id === editingId;
+    });
+    account.username = username;
+    account.fullname = fullname;
+    account.phone = phone;
+    account.password = password;
+    account.email = email;
+    account.address = address;
 
     _saveAccounts(accounts);
     _stopEdit();
@@ -308,8 +318,8 @@ loginBtn.addEventListener("click", _login);
 
 accounts_management_Btn.addEventListener("click", function () { _openTab(accounts_management); });
 products_management_Btn.addEventListener("click", function () { _openTab(products_management); });
-stock_management_Btn.addEventListener("click", function () { _openTab(stock_management); });
-orders_management_Btn.addEventListener("click", function () { _openTab(orders_management); });
+stock_management_Btn.addEventListener("click", function () { _openTab(stock_management); _initStockTab(); });
+orders_management_Btn.addEventListener("click", function () { _openTab(orders_management); renderOrders(); });
 
 newBtn.addEventListener("click", _new);
 removeBtn.addEventListener("click", _remove);
@@ -329,17 +339,17 @@ function _saveReceipts() {
 }
 
 function _getProductsList() {
-    const stored = localStorage.getItem("products");
+    const stored = localStorage.getItem("laptopShop");
     if (stored) return JSON.parse(stored);
     if (typeof PRODUCTS !== "undefined") {
-        localStorage.setItem("products", JSON.stringify(PRODUCTS));
+        localStorage.setItem("laptopShop", JSON.stringify(PRODUCTS));
         return PRODUCTS;
     }
     return [];
 }
 
 function _saveProductsList(prods) {
-    localStorage.setItem("products", JSON.stringify(prods));
+    localStorage.setItem("laptopShop", JSON.stringify(prods));
     if (typeof PRODUCTS !== "undefined") {
         window.PRODUCTS = prods;
     }
@@ -456,7 +466,7 @@ function deleteProduct(id) {
     pendingCompleteReceiptId = id;
     document.getElementById('confirmModalTitle').innerText = "Xác Nhận Xóa Sản Phẩm";
     document.getElementById('confirmModalMessage').innerText = `Bạn có chắc chắn muốn xóa sản phẩm mã #${id}? Thao tác này không thể hoàn tác.`;
-    document.getElementById('confirmModalActionBtn').onclick = function() {
+    document.getElementById('confirmModalActionBtn').onclick = function () {
         let prods = _getProductsList();
         prods = prods.filter(x => x.id !== id);
         _saveProductsList(prods);
@@ -507,7 +517,7 @@ function renderReceipts() {
     tbody.innerHTML = filtered.map(r => {
         const totalAmount = r.items.reduce((sum, item) => sum + (item.qty * item.price), 0);
         const isDraft = r.status === 'DRAFT';
-        const statusBadge = isDraft 
+        const statusBadge = isDraft
             ? `<span class="badge-draft"><i class="fa-regular fa-clock"></i> Bản nháp</span>`
             : `<span class="badge-completed"><i class="fa-solid fa-lock"></i> Đã hoàn thành</span>`;
 
@@ -715,7 +725,7 @@ function completeReceipt(id) {
     pendingCompleteReceiptId = id;
     document.getElementById('confirmModalTitle').innerText = "Xác Nhận Hoàn Thành Phiếu Nhập";
     document.getElementById('confirmModalMessage').innerText = `Xác nhận hoàn thành phiếu ${id}? Trạng thái sẽ chuyển thành "Đã Hoàn Thành" (Đã Khóa) và Tồn Kho sản phẩm sẽ tự động được tăng thêm.`;
-    document.getElementById('confirmModalActionBtn').onclick = function() {
+    document.getElementById('confirmModalActionBtn').onclick = function () {
         executeCompleteReceipt(pendingCompleteReceiptId);
         closeConfirmModal();
     };
@@ -740,7 +750,7 @@ function executeCompleteReceipt(id) {
         const p = prods.find(x => x.id === item.productId);
         if (p) p.soluong = (p.soluong || 0) + parseInt(item.qty);
     });
-
+    _saveProductsList(prods);
     renderReceipts();
     renderInventory();
     calculateStockCard();
@@ -773,7 +783,7 @@ function renderInventory() {
 
     tbody.innerHTML = filtered.map(p => {
         const isLow = (p.soluong || 0) <= 5;
-        const statusBadge = isLow 
+        const statusBadge = isLow
             ? `<span class="badge-draft" style="color:red;background:#ffe6e6;"><i class="fa-solid fa-triangle-exclamation"></i> Sắp hết hàng</span>`
             : `<span class="badge-completed"><i class="fa-solid fa-check"></i> An toàn</span>`;
 

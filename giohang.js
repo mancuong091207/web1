@@ -2,7 +2,7 @@ const dssanpham = document.querySelectorAll("#danh-sach-san-pham article");
 const main_ui = document.querySelector("#san-pham");
 const chi_tiet = document.querySelector("#chi-tiet-san-pham");
 const home = document.querySelector(".quay-lai-danh-sach");
-let sl =0;
+let sl = 0;
 // Nút quay về danh sách
 home.addEventListener("click", function () {
     main_ui.hidden = false;
@@ -90,7 +90,7 @@ add_cart.forEach(function (nut) {
 function ve_gio_hang() {
     let html = "";
     let tong = 0;
-    
+
 
     gio.forEach(function (mon) {
         const sp = PRODUCTS.find(function (p) { return p.id === mon.id; });
@@ -113,7 +113,7 @@ function ve_gio_hang() {
 
     cart_list.innerHTML = html || '<p class="cart-trong">Giỏ hàng đang trống</p>';
     money.textContent = tong.toLocaleString("vi-VN") + " VNĐ";
-        document.getElementById("checkout-sl").textContent = sl;
+    document.getElementById("checkout-sl").textContent = sl;
     document.getElementById("checkout").hidden = gio.length === 0;
 }
 
@@ -301,7 +301,12 @@ nut_dat_hang.addEventListener("click", function () {
     if (!o_xacnhan.checked) return bao_loi(o_loi_modal, "Bạn chưa xác nhận thông tin đặt hàng");
 
     const la_mua_ngay = mua_ngay !== null;
-
+    for (const mon of ds_mon) {
+        const sp = PRODUCTS.find(function (p) { return p.id === mon.id; });
+        if (!sp || (sp.soluong || 0) < mon.so) {
+            return bao_loi(o_loi_modal, "Sản phẩm " + (sp ? sp.ten : mon.id) + " không đủ hàng trong kho");
+        }
+    }
     const items = ds_mon.map(function (mon) {
         const sp = PRODUCTS.find(function (p) { return p.id === mon.id; });
         return { id: sp.id, ten: sp.ten, gia: sp.gia, so: mon.so };
@@ -328,7 +333,11 @@ nut_dat_hang.addEventListener("click", function () {
     const ds = JSON.parse(localStorage.getItem("orders")) || [];
     ds.push(don);
     localStorage.setItem("orders", JSON.stringify(ds));
-
+    ds_mon.forEach(function (mon) {
+        const sp = PRODUCTS.find(function (p) { return p.id === mon.id; });
+        sp.soluong = (sp.soluong || 0) - mon.so;
+    });
+    localStorage.setItem("laptopShop", JSON.stringify(PRODUCTS));
     // reset form
     o_ghichu.value = "";
     delete o_ghichu.dataset.sua;
