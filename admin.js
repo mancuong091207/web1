@@ -504,6 +504,9 @@ function _initStockTab() {
 }
 
 // 1. DSH PHIẾU NHẬP (TV5-02)
+function laDonDaHuy(don) {
+    return don.trangThai === "Hủy" || don.trangThai === "Đã hủy";
+}
 function renderReceipts() {
     const tbody = document.getElementById('receiptTableBody');
     if (!tbody) return;
@@ -844,7 +847,7 @@ function calculateStockCard() {
 
     // Xuất từ đơn hàng
     const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    allOrders.filter(o => o.trangThai !== 'Hủy').forEach(o => {
+    allOrders.filter(o => !laDonDaHuy(o)).forEach(o => {
         (o.items || []).forEach(item => {
             if (item.id === productId) {
                 trans.push({ date: o.ngay.split('T')[0], type: 'XUẤT', docCode: o.id.slice(0, 8).toUpperCase(), qty: item.so, price: item.gia, note: `Xuất bán (${o.nguoiNhan?.ten || 'Khách hàng'})` });
@@ -912,6 +915,7 @@ function _getOrderStatusBadge(status) {
             return `<span class="badge-completed" style="background:#e0f2fe;color:#0369a1;"><i class="fa-solid fa-box-archive"></i> Đã xử lý</span>`;
         case "Đã giao":
             return `<span class="badge-completed" style="background:#d1fae5;color:#065f46;"><i class="fa-solid fa-circle-check"></i> Đã giao</span>`;
+        case "Đã hủy":
         case "Hủy":
             return `<span class="badge-draft" style="background:#fee2e2;color:#991b1b;"><i class="fa-solid fa-ban"></i> Đã hủy</span>`;
         default:
@@ -939,6 +943,8 @@ function renderOrders() {
         if (statusFilter !== 'ALL') {
             if (statusFilter === 'Chờ xử lý') {
                 matchStatus = (o.trangThai === 'Chờ xử lý' || o.trangThai === 'Mới đặt');
+            } else if (statusFilter === 'Hủy') {
+                matchStatus = laDonDaHuy(o);
             } else {
                 matchStatus = o.trangThai === statusFilter;
             }
@@ -955,9 +961,22 @@ function renderOrders() {
     tbody.innerHTML = filtered.map(o => {
         const formattedDate = o.ngay ? new Date(o.ngay).toLocaleDateString('vi-VN') : 'N/A';
         const shortId = o.id ? o.id.slice(0, 8).toUpperCase() : 'N/A';
+
         const customerName = o.nguoiNhan?.ten || 'Khách vãng lai';
         const currentStatus = o.trangThai || 'Chờ xử lý';
+           const daHuy = laDonDaHuy(o);
 
+        const oChonTrangThai = daHuy
+            ? `<select disabled title="Đơn đã hủy, không thể thay đổi trạng thái" style="padding:5px;border-radius:6px;border:1px solid #cbd5e1;font-size:13px;background:#f1f3f5;color:#888;cursor:not-allowed;">
+                    <option>Hủy</option>
+               </select>`
+            : `<select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:5px;border-radius:6px;border:1px solid #cbd5e1;font-size:13px;">
+                    <option value="Chờ thanh toán" ${currentStatus === 'Chờ thanh toán' ? 'selected' : ''}>Chờ thanh toán</option>
+                    <option value="Chờ xử lý" ${currentStatus === 'Chờ xử lý' || currentStatus === 'Mới đặt' ? 'selected' : ''}>Chờ xử lý</option>
+                    <option value="Đã xử lý" ${currentStatus === 'Đã xử lý' ? 'selected' : ''}>Đã xử lý</option>
+                    <option value="Đã giao" ${currentStatus === 'Đã giao' ? 'selected' : ''}>Đã giao</option>
+                    <option value="Hủy">Hủy</option>
+               </select>`;
         return `
             <tr>
                 <td><strong>#${shortId}</strong></td>
@@ -992,21 +1011,47 @@ function resetOrderFilters() {
 function updateOrderStatus(orderId, newStatus) {
     const allOrders = _getOrdersList();
     const o = allOrders.find(x => x.id === orderId);
-    if (o) {
-        o.trangThai = newStatus;
-        localStorage.setItem("orders", JSON.stringify(allOrders));
-        renderOrders();
+    if (!o) return;
 
-        // Nếu tab Thẻ kho đang mở, cập nhật tự động lại biến động thẻ kho
-        if (typeof calculateStockCard === "function") {
-            calculateStockCard();
+    // Đơn đã hủy thì khóa, không đổi được nữa
+    if (laDonDaHuy(o)) {
+        alert("Đơn hàng đã hủy, không thể thay đổi trạng thái.");
+        renderOrders();
+        return;
+    }
+
+    if (o.trangThai === newStatus) return;
+
+    const shortCode = orderId.slice(0, 8).toUpperCase();
+
+    if (newStatus === "Hủy") {
+        if (!confirm(`Hủy đơn #${shortCode}?\nSau khi hủy sẽ KHÔNG thể đổi lại trạng thái.`)) {
+            renderOrders();   // trả ô chọn về trạng thái cũ
+            return;
         }
 
-        const shortCode = orderId.slice(0, 8).toUpperCase();
-        alert(`Đã cập nhật trạng thái đơn hàng #${shortCode} sang "${newStatus}"`);
-    }
-}
+        // Trả hàng về kho (giống khi khách tự hủy)
+        const prods = _getProductsList();
+        (o.items || []).forEach(it => {
+            const p = prods.find(x => x.id === it.id);
+            if (p) p.soluong = (p.soluong || 0) + it.so;
+        });
+        _saveProductsList(prods);
 
+        o.ngayHuy = new Date().toISOString();
+    }
+
+    o.trangThai = newStatus;
+    localStorage.setItem("orders", JSON.stringify(allOrders));
+    renderOrders();
+    renderInventory();
+
+    if (typeof calculateStockCard === "function") {
+        calculateStockCard();
+    }
+
+    alert(`Đã cập nhật trạng thái đơn hàng #${shortCode} sang "${newStatus}"`);
+}
 function openOrderModal(orderId) {
     const allOrders = _getOrdersList();
     const o = allOrders.find(x => x.id === orderId);
