@@ -20,7 +20,7 @@
 <body>
     <header><!--Phần đầu trang-->
         <a href="index.html" class="logo">
-            <h1>Cửa hàng LapTop</h1>
+            <h1>SaTi Lap</h1>
         </a>
 
         <div class="tim-kiem-dau-trang">
@@ -59,6 +59,8 @@
                 <form>
                     <input class="auth_input" type="text" id="user1" placeholder="Tên đăng nhập">
                     <input class="auth_input" type="password" id="pass1" placeholder="Mật khẩu">
+                    <p style="color: black;margin-right: auto;"><input type="checkbox" id="show-pass1">Hiện mật khẩu
+                    </p>
                     <input class="auth_submit" type="button" value="Đăng nhập" id="signin_Btn">
                     <p class="auth_switch">Chưa có tài khoản? <a href="#signup_tab">Đăng ký</a>.</p>
                 </form>
@@ -75,6 +77,8 @@
                     <input class="auth_input" type="text" id="email" placeholder="Địa chỉ email">
                     <input class="auth_input" type="text" id="address" placeholder="Địa chỉ">
                     <input class="auth_input" type="password" id="pass" placeholder="Mật khẩu">
+                    <p style="color: black;margin-right: auto;"><input type="checkbox" id="show-pass2">Hiện mật khẩu
+                    </p>
                     <input class="auth_submit" type="button" value="Đăng ký" id="signup_Btn">
                     <p class="auth_switch">Đã có tài khoản? <a href="#signin_tab">Đăng nhập</a>.</p>
                 </form>
@@ -694,15 +698,15 @@
                 <button type="button" class="tiep-tuc">← Quay về trang chủ </button>
                 <h4 class="remove">Xóa toàn bộ giỏ hàng</h4>
             </div>
-        
+
             <div id="cart-list"></div> <!-- JS đổ các dòng sản phẩm vào đây -->
-        
+
             <div class="checkout" id="checkout" hidden>
                 <!-- Trái: thông tin người mua (có thể sửa) -->
                 <div class="checkout-box">
                     <h3 class="checkout-title">THÔNG TIN NGƯỜI MUA</h3>
                     <p class="checkout-note">Để tiếp tục đặt hàng, quý khách vui lòng kiểm tra thông tin bên dưới</p>
-        
+
                     <form id="form-dat-hang" novalidate>
                         <div class="checkout-row">
                             <label for="dh-ten">Họ tên<span>*</span></label>
@@ -727,7 +731,7 @@
                         <p class="checkout-loi" id="dh-loi" hidden></p>
                     </form>
                 </div>
-        
+
                 <!-- Phải: tổng tiền + nút đặt hàng -->
                 <div class="checkout-box">
                     <h3 class="checkout-title">TỔNG TIỀN</h3>
@@ -740,14 +744,14 @@
                         <strong id="money">0 VNĐ</strong>
                     </div>
                     <small class="vat">(Giá đã bao gồm VAT)</small>
-        
+
                     <button type="button" id="nut-mo-dat-hang" class="nut-dat-hang">
                         <i class="fa-solid fa-check"></i> ĐẶT HÀNG
                     </button>
                 </div>
             </div> <!-- đóng .checkout -->
         </div> <!-- đóng .cart_ui -->
-        
+
         <!-- Modal xác nhận đặt hàng (nằm NGOÀI .cart_ui) -->
         <div class="modal-dat-hang" id="modal-dat-hang" hidden>
             <div class="modal-hop" role="dialog" aria-modal="true" aria-labelledby="modal-tieu-de">
@@ -757,7 +761,7 @@
                         <i class="fa-solid fa-arrow-left"></i> Quay lại giỏ hàng
                     </button>
                 </div>
-        
+
                 <!-- Tóm tắt thông tin (chỉ đọc) -->
                 <div class="xn-thongtin">
                     <div class="xn-dong"><span>Họ tên</span><strong id="xn-ten"></strong></div>
@@ -766,7 +770,7 @@
                     <div class="xn-dong"><span>Địa chỉ</span><strong id="xn-diachi"></strong></div>
                     <div class="xn-dong" id="xn-dong-ghichu"><span>Ghi chú</span><strong id="xn-ghichu"></strong></div>
                 </div>
-        
+
                 <div class="checkout-row">
                     <label for="dh-thanhtoan">Phương thức thanh toán</label>
                     <select id="dh-thanhtoan">
@@ -774,19 +778,19 @@
                         <option value="online">Thanh toán online</option>
                     </select>
                 </div>
-        
+
                 <label class="checkout-xacnhan">
                     <input type="checkbox" id="dh-xacnhan">
                     Tôi xác nhận thông tin trên là chính xác và đồng ý với điều kiện giao dịch chung của website
                 </label>
-        
+
                 <p class="checkout-loi" id="xn-loi" hidden></p>
-        
+
                 <div class="tong-dong tong-cuoi modal-tong">
                     <span>Thành tiền</span>
                     <strong id="modal-tong">0 VNĐ</strong>
                 </div>
-        
+
                 <button type="button" id="nut-dat-hang" class="nut-dat-hang">ĐẶT HÀNG</button>
             </div> <!-- đóng .modal-hop -->
         </div> <!-- đóng .modal-dat-hang -->

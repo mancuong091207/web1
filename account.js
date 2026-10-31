@@ -38,6 +38,8 @@ const saveInfo5 = document.querySelector(".saveInfo5");
 const _checkPass = document.querySelector("#check_pass");
 const oldPass = document.querySelector("#old_pass");
 const newPass = document.querySelector("#new_pass");
+const showPass1 = document.getElementById("show-pass1");
+const showPass2 = document.getElementById("show-pass2");
 
 
 function _getAccounts() {
@@ -66,7 +68,22 @@ function hide(element) {
     element.style.display = "none";
 }
 
-
+function toggleShowPass1() {
+    if (showPass1.checked) {
+        inputSigninPass.type = "text";
+    }
+    else {
+        inputSigninPass.type = "password";
+    }
+}
+function toggleShowPass2() {
+    if (showPass2.checked) {
+        inputSignupPass.type = "text";
+    }
+    else {
+        inputSignupPass.type = "password";
+    }
+}
 
 function _update() {
     if (_isLogged()) {
@@ -581,7 +598,8 @@ for (const btn of closeBtns) {
 signupBtn.addEventListener("click", _signup);
 signinBtn.addEventListener("click", _signin);
 signoutBtn.addEventListener("click", _signout);
-
+showPass1.addEventListener("click", toggleShowPass1);
+showPass2.addEventListener("click", toggleShowPass2);
 // hủy đơn event
 document.getElementById("history").addEventListener("click", function (e) {
     const nut = e.target.closest(".nut-huy-don");
