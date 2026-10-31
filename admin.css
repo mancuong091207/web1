@@ -130,205 +130,246 @@ main {
     padding: 6px;
     box-sizing: border-box;
 }
-
-#products-management {
-    margin-top: 24px;
-    padding: 24px;
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(23, 74, 126, 0.15);
+/* Thêm css cho quản lý kho, phiếu nhập và đơn hàng (TV5) */
+.admin-subtabs {
+display: flex;
+gap: 8px;
+margin-bottom: 16px;
 }
 
-
-#products-management h2 {
-    margin-top: 0;
-    padding-bottom: 12px;
-    color: #174a7e;
-    border-bottom: 3px solid #174a7e;
+.admin-subtabs button {
+padding: 8px 16px;
+border: 1px solid #174a7e;
+background: white;
+color: #174a7e;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
 }
 
-#products-management h3 {
-    margin-top: 28px;
-    color: #174a7e;
+.admin-subtabs button.active {
+background: #174a7e;
+color: white;
 }
 
-
-#form-loai {
-    padding: 20px;
-    background-color: #f0f5fb;
-    border: 1px solid #bfd3ea;
-    border-radius: 12px;
+.admin-action-bar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 12px;
 }
 
-#form-loai p {
-    margin: 0 0 16px;
+.filter-group {
+display: flex;
+gap: 8px;
+align-items: center;
+flex-wrap: wrap;
 }
 
-#form-loai label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
+.margin-v {
+margin: 12px 0;
 }
 
-
-#form-loai input {
-    width: 100%;
-    max-width: 450px;
-    box-sizing: border-box;
-    padding: 12px;
-    border: 1px solid #bfd3ea;
-    border-radius: 8px;
-    font: inherit;
+.filter-group input, .filter-group select {
+padding: 6px 12px;
+border: 1px solid #ccc;
+border-radius: 6px;
 }
 
-#form-loai input:focus {
-    outline: 2px solid #174a7e;
+.btn-primary {
+background: #174a7e;
+color: white;
+border: none;
+padding: 8px 16px;
+border-radius: 6px;
+cursor: pointer;
+font-weight: 600;
 }
 
+.btn-primary:hover { background: #0f3560; }
 
-#form-loai button {
-    padding: 12px 24px;
-    background-color: #174a7e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font: inherit;
-    cursor: pointer;
-}
-
-#form-loai button:hover {
-    background-color: #10365d;
+.btn-secondary {
+background: #e2e8f0;
+color: #334155;
+border: none;
+padding: 8px 16px;
+border-radius: 6px;
+cursor: pointer;
 }
 
-
-#products-management table {
-    width: 100%;
-    border-collapse: collapse;
+.btn-success {
+background: #10b981;
+color: white;
+border: none;
+padding: 8px 16px;
+border-radius: 6px;
+cursor: pointer;
+font-weight: 600;
 }
 
-#products-management th,
-#products-management td {
-    padding: 14px;
-    border: 1px solid #bfd3ea;
-    text-align: left;
-    overflow-wrap: anywhere;
+.btn-success:hover { background: #059669; }
+
+.btn-warning {
+background: #f59e0b;
+color: white;
+border: none;
+padding: 4px 10px;
+border-radius: 6px;
+cursor: pointer;
 }
 
-#products-management th {
-    background-color: #174a7e;
-    color: white;
+.btn-small {
+padding: 4px 10px;
+font-size: 12px;
+background: #174a7e;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
 }
 
-#products-management tbody tr:nth-child(even) {
-    background-color: #f0f5fb;
+.alert-box {
+background: #fef3c7;
+border: 1px solid #f59e0b;
+color: #92400e;
+padding: 10px 16px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+gap: 12px;
+margin-bottom: 12px;
 }
 
-
-@media (max-width: 600px) {
-    #products-management {
-        padding: 14px;
-    }
-
-    #form-loai {
-        padding: 14px;
-    }
-
-    #products-management th,
-    #products-management td {
-        padding: 8px;
-    }
-}
-#products-management td button {
-    padding: 8px 16px;
-    background-color: #174a7e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font: inherit;
-    cursor: pointer;
+.kpi-cards {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
+margin-bottom: 12px;
 }
 
-#products-management td button:hover {
-    background-color: #10365d;
-}
-#products-management td button {
-    margin: 4px;
-}
-#products-management .bang-laptop {
-    overflow-x: auto;
+.kpi-box {
+background: white;
+padding: 12px;
+border-radius: 8px;
+border: 1px solid #cbd5e1;
+text-align: center;
 }
 
-#products-management .bang-laptop table {
-    min-width: 650px;
+.kpi-box span { display: block; font-size: 12px; color: #64748b; }
+.kpi-box strong { font-size: 20px; }
+.kpi-box.green strong { color: #10b981; }
+.kpi-box.red strong { color: #ef4444; }
+.kpi-box.blue strong { color: #3b82f6; }
+
+/* Admin Modal Custom */
+.admin-modal {
+position: fixed;
+inset: 0;
+background: rgba(15, 23, 42, 0.6);
+z-index: 1000;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 16px;
 }
 
-#products-management .bang-laptop th:nth-child(4),
-#products-management .bang-laptop td:nth-child(4) {
-    white-space: nowrap;
-}
-#form-laptop {
-    margin-bottom: 24px;
-    padding: 20px;
-    background-color: #f0f5fb;
-    border: 1px solid #bfd3ea;
-    border-radius: 12px;
-}
-
-#form-laptop label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
+.admin-modal-content {
+background: white;
+border-radius: 12px;
+width: 100%;
+max-width: 650px;
+padding: 20px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+max-height: 90vh;
+overflow-y: auto;
 }
 
-#form-laptop input,
-#form-laptop select,
-#form-laptop textarea {
-    width: 100%;
-    max-width: 600px;
-    box-sizing: border-box;
-    padding: 12px;
-    border: 1px solid #bfd3ea;
-    border-radius: 8px;
-    font: inherit;
+.confirm-box {
+max-width: 400px;
+text-align: center;
 }
 
-#form-laptop textarea {
-    resize: vertical;
+.confirm-box .warning-icon {
+font-size: 40px;
+color: #f59e0b;
+margin-bottom: 8px;
 }
 
-#form-laptop button {
-    padding: 12px 24px;
-    background-color: #174a7e;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font: inherit;
-    cursor: pointer;
+.modal-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #e2e8f0;
+padding-bottom: 10px;
+margin-bottom: 12px;
 }
 
-#form-laptop button:hover {
-    background-color: #10365d;
-}
-#products-management .khung-thu-gon {
-    margin: 20px 0;
-    border: 1px solid #bfd3ea;
-    border-radius: 12px;
-    overflow: hidden;
+.close-modal-btn {
+background: none;
+border: none;
+font-size: 24px;
+cursor: pointer;
+color: #64748b;
 }
 
-#products-management .khung-thu-gon summary {
-    padding: 16px 20px;
-    background-color: #174a7e;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
+.form-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
+margin-bottom: 12px;
 }
 
-#products-management .khung-thu-gon summary:hover {
-    background-color: #10365d;
+.form-grid label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.form-grid input { width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; }
+
+.items-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin: 12px 0 6px 0;
 }
 
-#products-management .khung-thu-gon .bang-laptop {
-    padding: 12px;
+.items-container {
+max-height: 180px;
+overflow-y: auto;
+border: 1px solid #e2e8f0;
+border-radius: 6px;
+padding: 8px;
+margin-bottom: 12px;
 }
+
+.item-row {
+display: flex;
+gap: 8px;
+margin-bottom: 6px;
+align-items: center;
+}
+
+.item-row select, .item-row input {
+padding: 6px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.total-summary {
+display: flex;
+justify-content: space-between;
+background: #f8fafc;
+padding: 10px;
+border-radius: 6px;
+font-weight: bold;
+margin-bottom: 12px;
+}
+
+.modal-footer {
+display: flex;
+gap: 8px;
+justify-content: flex-end;
+border-top: 1px solid #e2e8f0;
+padding-top: 12px;
+}
+
+.justify-center { justify-content: center; }
+
+.badge-draft { background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
+.badge-completed { background: #d1fae5; color: #065f46; padding: 3px 8px; border-radius: 12px; font-size: 12px; }
