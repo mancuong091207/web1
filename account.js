@@ -226,12 +226,15 @@ function _escapeHtml(s) {
 }
 
 // trạng thái đơn: đơn cũ "Chờ xử lý" coi như "Đang xử lý"
+// thêm nút hủy đơn hàng
 function _statusInfo(trangThai) {
     if (trangThai === "Chờ xử lý") trangThai = "Đang xử lý";
+    if (trangThai === "Hủy" || trangThai === "Đã hủy") {
+        return { text: "Đã hủy", cls: "status-cancel" };
+    }
     const cls = trangThai === "Chờ thanh toán" ? "status-wait" : "status-processing";
     return { text: trangThai, cls: cls };
 }
-
 //hiện lịch sử mua
 function _showhistory() {
     // --- phần ẩn/hiện giữ như cấu trúc ban đầu ---
@@ -261,6 +264,7 @@ function _showhistory() {
         const pt = don.phuongThuc === "online" ? "Thanh toán online" : "Tiền mặt khi nhận hàng";
         const nn = don.nguoiNhan || {};
 
+        // vòng lặp này CHỈ vẽ các dòng sản phẩm, không có nút hủy
         let dong = "";
         don.items.forEach(function (it) {
             const sp = (typeof PRODUCTS !== "undefined")
@@ -274,6 +278,11 @@ function _showhistory() {
                 <div class="order-item-gia">${_formatMoney(it.gia * it.so)}</div>
             </div>`;
         });
+
+        // nút hủy nằm ở đây, mỗi đơn đúng 1 nút
+        const nutHuy = st.text === "Đang xử lý"
+            ? `<button type="button" class="nut-huy-don" data-id="${_escapeHtml(don.id)}">Hủy đơn hàng</button>`
+            : "<span></span>";
 
         html += `
         <div class="order-card">
@@ -291,13 +300,47 @@ function _showhistory() {
                 ${nn.ghiChu ? `<p><span>Ghi chú:</span> ${_escapeHtml(nn.ghiChu)}</p>` : ""}
                 <p><span>Thanh toán:</span> ${pt}</p>
             </div>
-            <div class="order-total">Tổng tiền: <strong>${_formatMoney(don.tong)}</strong></div>
+            <div class="order-total">
+                ${nutHuy}
+                <div>Tổng tiền: <strong>${_formatMoney(don.tong)}</strong></div>
+            </div>
         </div>`;
     });
 
+
     historySection.innerHTML = html;
 }
+// Hủy đơn hangg
+function _huyDon(orderId) {
+    const userId = sessionStorage.getItem("currentUserId");
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const don = orders.find(function (o) { return o.id === orderId && o.userId === userId; });
+    if (!don) return;
 
+    // chỉ hủy được khi còn đang xử lý
+    if (_statusInfo(don.trangThai).text !== "Đang xử lý") {
+        alert("Đơn hàng này không thể hủy.");
+        _showhistory();
+        return;
+    }
+    if (!confirm("Bạn có chắc muốn hủy đơn hàng này không?")) return;
+
+    don.trangThai = "Đã hủy";
+    don.ngayHuy = new Date().toISOString();
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    // trả lại số lượng vào kho
+    if (typeof PRODUCTS !== "undefined") {
+        don.items.forEach(function (it) {
+            const sp = PRODUCTS.find(function (p) { return p.id === it.id; });
+            if (sp) sp.soluong = (sp.soluong || 0) + it.so;
+        });
+        localStorage.setItem("laptopShop", JSON.stringify(PRODUCTS));
+    }
+
+    alert("Đã hủy đơn hàng.");
+    _showhistory();
+}
 
 //đăng xuất
 function _signout() {
@@ -539,6 +582,11 @@ signupBtn.addEventListener("click", _signup);
 signinBtn.addEventListener("click", _signin);
 signoutBtn.addEventListener("click", _signout);
 
+// hủy đơn event
+document.getElementById("history").addEventListener("click", function (e) {
+    const nut = e.target.closest(".nut-huy-don");
+    if (nut) _huyDon(nut.dataset.id);
+});
 
 
 _hashChange();
