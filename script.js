@@ -8,7 +8,7 @@ function themLoaiChoKhach(ma, ten) {
     const oChon = nhan.querySelector("input");
 
     oChon.value = ma;
-    oChon.checked = ma === "";
+    oChon.defaultChecked = (ma === "");   // thay cho oChon.checked = ...
 
     nhan.querySelector("span:last-child").textContent = ten;
 
