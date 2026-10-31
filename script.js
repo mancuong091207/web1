@@ -156,6 +156,7 @@ for (const o of cacMucGia) {
 
 nutXoaBoLoc.addEventListener("click", function () {
     formTimKiem.reset();
+    cacLoaiLapTop[0].checked = true;   // ép về "Tất cả laptop"
     locSanPham();
 });
 function hienThiTrang() {
