@@ -320,7 +320,7 @@ unlockBtn.addEventListener("click", function () { _setLocked(false); });
 
 
 // QUẢN LÝ PHIẾU NHẬP - TỒN KHO - ĐƠN HÀNG (TV5)
-let receipts = JSON.parse(localStorage.getItem("receipts"))
+let receipts = JSON.parse(localStorage.getItem("receipts")) || [];
 let showOnlyLowStock = false;
 let pendingCompleteReceiptId = null;
 
