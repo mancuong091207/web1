@@ -54,17 +54,13 @@
         </div>
         <div class="account_tab" id="signin_tab" style="display: none;">
             <div class="auth_card">
-                <button class="closeBtn" type="button" aria-label="Đóng">X</button>
+                <button class="closeBtn" type="button" aria-label="Đóng">x</button>
                 <p class="auth_title">Đăng nhập</p>
                 <form>
-                    <input type="text" id="user1" placeholder="Tên đăng nhập"
-                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
-                    <input type="password" id="pass1" placeholder="Mật khẩu"
-                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br><br>
-                    <input type="button" value="Đăng nhập" id="signin_Btn"
-                        style="width: 200px;height:50px; background-color: #174a7e;border: solid #174a7e 2px;border-radius: 10px;font-size: 35px;color: white;"><br><br>
-                    <p style="color: black;">Chưa có tài khoản? <a style="color: #174a7e;text-decoration: none;"
-                            href="#signup_tab">Đăng ký</a>.</p>
+                    <input class="auth_input" type="text" id="user1" placeholder="Tên đăng nhập">
+                    <input class="auth_input" type="password" id="pass1" placeholder="Mật khẩu">
+                    <input class="auth_submit" type="button" value="Đăng nhập" id="signin_Btn">
+                    <p class="auth_switch">Chưa có tài khoản? <a href="#signup_tab">Đăng ký</a>.</p>
                 </form>
             </div>
         </div>
@@ -73,25 +69,14 @@
                 <button class="closeBtn" type="button" aria-label="Đóng">x</button>
                 <p class="auth_title">Đăng ký</p>
                 <form>
-                    <input type="text" id="user" placeholder="Tên đăng nhập"
-                        style="height: 40px;width: 240px;border:solid black 1px;border-radius:5px;font-size: 15px;">
-                    <br><br>
-                    <input type="text" id="fullname" placeholder="Họ và tên"
-                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"
-                            ><br><br>
-                    <input type="tel" id="phone" placeholder="Số điện thoại"
-                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;">
-                            <br><br>
-                    <input type="text" id="email" placeholder="Địa chỉ email"
-                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
-                    <input type="text" id="address" placeholder="Địa chỉ"
-                        style="width:240px;height: 40px;border: solid black 1px; border-radius: 5px;font-size: 15px;"><br><br>
-                    <input type="password" id="pass" placeholder="Mật khẩu"
-                        style="height: 40px;width: 240px;border:solid black 1px;border-radius:5px;font-size: 15px;"><br><br><br>
-                    <input type="button" value="Đăng ký" id="signup_Btn"
-                        style="width: 200px;height:50px; font-size: 35px;color: white; background-color: #174a7e; border: #174a7e; border-radius: 10px;"><br><br>
-                    <p style="color: black;">Đã có tài khoản? <a style="color: #174a7e;text-decoration: none;"
-                            href="#signin_tab">Đăng nhập</a>.</p>
+                    <input class="auth_input" type="text" id="user" placeholder="Tên đăng nhập">
+                    <input class="auth_input" type="text" id="fullname" placeholder="Họ và tên">
+                    <input class="auth_input" type="tel" id="phone" placeholder="Số điện thoại">
+                    <input class="auth_input" type="text" id="email" placeholder="Địa chỉ email">
+                    <input class="auth_input" type="text" id="address" placeholder="Địa chỉ">
+                    <input class="auth_input" type="password" id="pass" placeholder="Mật khẩu">
+                    <input class="auth_submit" type="button" value="Đăng ký" id="signup_Btn">
+                    <p class="auth_switch">Đã có tài khoản? <a href="#signin_tab">Đăng nhập</a>.</p>
                 </form>
             </div>
         </div>
