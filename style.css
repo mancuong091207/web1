@@ -855,6 +855,23 @@ th {
     border-radius: 10px;
 }
 
+.footer {
+    background-color: #174a7e;
+    color: white;
+    text-align: center;
+    padding: 10px 20px 28px;
+}
+.footer-thong-tin {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: left;
+}
+.footer-thong-tin p {
+    margin: 22px 0;
+    font-size: 20px;
+}
+
+
 .bao-hanh {
     margin-bottom: 20px;
 }
