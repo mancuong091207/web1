@@ -263,11 +263,11 @@ function _save() {
     const isPhoneTaken = accounts.some(function (acc) {
         return acc.phone === phone && acc.id !== editingId;
     });
-    if (accounts.some(function (acc) { return acc.username === username.trim(); })) {
+    if (accounts.some(function (acc) { return acc.username === username.trim() && acc.id !== editingId;; })) {
         alert("Username đã tồn tại.");
         return;
     }
-    if (accounts.some(function (acc) { return acc.email === email.trim(); })) {
+    if (accounts.some(function (acc) { return acc.email === email.trim() && acc.id !== editingId;; })) {
         alert("Email đã tồn tại.");
         return;
     }
