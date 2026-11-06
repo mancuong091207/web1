@@ -606,6 +606,27 @@ document.getElementById("history").addEventListener("click", function (e) {
     if (nut) _huyDon(nut.dataset.id);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    checkLoad();
+});
+
+function checkLoad() {
+    if (!_isLogged()) return;
+
+    const username = _getCurrentUser();
+    const userId = sessionStorage.getItem("currentUserId");
+
+    const accounts = _getAccounts();
+
+    const account = accounts.find(function (acc) {
+        return acc.username === username && acc.id === userId;
+    });
+
+    if (!account || account.locked) {
+        _signout();
+        return;
+    }
+}
 
 _hashChange();
 //load lại giao diện
