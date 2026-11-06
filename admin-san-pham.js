@@ -162,17 +162,29 @@ if (daCoLoai === false) {
     oLoaiLaptop.appendChild(luaChon);
 }
 
-    oMaLaptop.value = laptop.id;
-    oMaLaptop.readOnly = true;
-    oTenLaptop.value = laptop.ten;
-    oLoaiLaptop.value = laptop.loai;
-    oGiaLaptop.value = laptop.gia;
-    oHinhLaptop.value = laptop.hinh;
-    oMoTaLaptop.value = laptop.moTa;
-    oCpuLaptop.value = laptop.cauHinh["CPU"] || "";
-    oRamLaptop.value = laptop.cauHinh["RAM"] || "";
-    oOCungLaptop.value = laptop.cauHinh["Ổ cứng"] || "";
-    oManHinhLaptop.value = laptop.cauHinh["Màn hình"] || "";
+const cauHinh = laptop.cauHinh || {};
+
+oMaLaptopHienThi.textContent =
+    "Đang sửa laptop mã " + laptop.id + ". Mã này sẽ được giữ nguyên.";
+
+oTenLaptop.value = laptop.ten;
+oLoaiLaptop.value = laptop.loai;
+oGiaLaptop.value = laptop.gia;
+oHinhLaptop.value = laptop.hinh;
+oMoTaLaptop.value = laptop.moTa;
+
+oCpuLaptop.value = cauHinh["CPU"] || "";
+oRamLaptop.value = cauHinh["RAM"] || "";
+oOCungLaptop.value = cauHinh["Ổ cứng"] || "";
+oManHinhLaptop.value = cauHinh["Màn hình"] || "";
+
+oKichThuocManHinhLaptop.value = cauHinh["Kích thước màn hình"] || "";
+oTanSoQuetLaptop.value = cauHinh["Tần số quét"] || "";
+oCardDoHoaLaptop.value = cauHinh["Card đồ họa"] || "";
+oPinLaptop.value = cauHinh["Pin"] || "";
+oKhoiLuongLaptop.value = cauHinh["Khối lượng"] || "";
+oMauSacLaptop.value = cauHinh["Màu sắc"] || "";
+oHeDieuHanhLaptop.value = cauHinh["Hệ điều hành"] || "";
 
     formLaptop.querySelector('button[type="submit"]').textContent =
         "Lưu thay đổi";
@@ -221,9 +233,10 @@ nutXoaLaptop.addEventListener("click", function () {
 
     localStorage.setItem("laptopShop", JSON.stringify(PRODUCTS));
 
-    viTriSuaLaptop = -1;
-    formLaptop.reset();
-    oMaLaptop.readOnly = false;
+viTriSuaLaptop = -1;
+formLaptop.reset();
+oMaLaptopHienThi.textContent =
+    "Mã laptop sẽ tự động tăng khi thêm sản phẩm, không cần nhập.";
 
     formLaptop.querySelector('button[type="submit"]').textContent =
         "Thêm laptop";
@@ -255,29 +268,94 @@ function capNhatLoaiLaptop() {
 
 capNhatLoaiLaptop();
 const formLaptop = document.getElementById("form-laptop");
-const oMaLaptop = document.getElementById("ma-laptop");
+const oMaLaptopHienThi = document.getElementById("ma-laptop-hien-thi");
 const oTenLaptop = document.getElementById("ten-laptop-admin");
 const oLoaiLaptop = document.getElementById("loai-laptop-admin");
 const oGiaLaptop = document.getElementById("gia-laptop");
 const oHinhLaptop = document.getElementById("hinh-laptop");
 const oMoTaLaptop = document.getElementById("mota-laptop");
+
 const oCpuLaptop = document.getElementById("cpu-laptop");
 const oRamLaptop = document.getElementById("ram-laptop");
 const oOCungLaptop = document.getElementById("ocung-laptop");
 const oManHinhLaptop = document.getElementById("manhinh-laptop");
 
+const oKichThuocManHinhLaptop = document.getElementById("kichthuocmanhinh-laptop");
+const oTanSoQuetLaptop = document.getElementById("tansoquet-laptop");
+const oCardDoHoaLaptop = document.getElementById("carddohoa-laptop");
+const oPinLaptop = document.getElementById("pin-laptop");
+const oKhoiLuongLaptop = document.getElementById("khoiluong-laptop");
+const oMauSacLaptop = document.getElementById("mausac-laptop");
+const oHeDieuHanhLaptop = document.getElementById("hedieuhanh-laptop");
+
+function taoMaLaptopMoi() {
+    let maLonNhat = 0;
+
+    for (let i = 0; i < PRODUCTS.length; i++) {
+        const maSo = Number(PRODUCTS[i].id);
+
+        if (Number.isInteger(maSo) && maSo > maLonNhat) {
+            maLonNhat = maSo;
+        }
+    }
+
+    let maTiepTheo = Number(localStorage.getItem("laptopIdTiepTheo"));
+
+    if (!Number.isInteger(maTiepTheo) || maTiepTheo <= maLonNhat) {
+        maTiepTheo = maLonNhat + 1;
+    }
+
+    while (PRODUCTS.some(function (laptop) {
+        return String(laptop.id) === String(maTiepTheo);
+    })) {
+        maTiepTheo++;
+    }
+
+    localStorage.setItem("laptopIdTiepTheo", String(maTiepTheo + 1));
+
+    return String(maTiepTheo);
+}
+
+function layCauHinhTuForm() {
+    return {
+        "CPU": oCpuLaptop.value.trim(),
+        "RAM": oRamLaptop.value.trim(),
+        "Ổ cứng": oOCungLaptop.value.trim(),
+        "Màn hình": oManHinhLaptop.value.trim(),
+        "Kích thước màn hình": oKichThuocManHinhLaptop.value.trim(),
+        "Tần số quét": oTanSoQuetLaptop.value.trim(),
+        "Card đồ họa": oCardDoHoaLaptop.value.trim(),
+        "Pin": oPinLaptop.value.trim(),
+        "Khối lượng": oKhoiLuongLaptop.value.trim(),
+        "Màu sắc": oMauSacLaptop.value.trim(),
+        "Hệ điều hành": oHeDieuHanhLaptop.value.trim()
+    };
+}
+
+function capNhatCauHinhLaptop(laptop, cauHinhMoi) {
+    if (!laptop.cauHinh) {
+        laptop.cauHinh = {};
+    }
+
+    for (const ten in cauHinhMoi) {
+        if (cauHinhMoi[ten] === "") {
+            delete laptop.cauHinh[ten];
+        } else {
+            laptop.cauHinh[ten] = cauHinhMoi[ten];
+        }
+    }
+}
 formLaptop.addEventListener("submit", function (suKien) {
     suKien.preventDefault();
 
-    const ma = oMaLaptop.value.trim();
     const ten = oTenLaptop.value.trim();
     const loai = oLoaiLaptop.value;
     const gia = Number(oGiaLaptop.value);
     const hinh = oHinhLaptop.value.trim();
     const moTa = oMoTaLaptop.value.trim();
 
-    if (ma === "" || ten === "" || hinh === "" || moTa === "") {
-        alert("Vui lòng nhập đầy đủ thông tin!");
+    if (ten === "" || hinh === "" || moTa === "") {
+        alert("Vui lòng nhập đầy đủ tên laptop, đường dẫn hình ảnh và mô tả!");
         return;
     }
 
@@ -300,66 +378,58 @@ formLaptop.addEventListener("submit", function (suKien) {
         return;
     }
 
-    for (let i = 0; i < PRODUCTS.length; i++) {
-if (i !== viTriSuaLaptop &&
-    PRODUCTS[i].id.toLowerCase() === ma.toLowerCase()) {
-            alert("Mã laptop đã tồn tại!");
-            return;
-        }
+    const cauHinhMoi = layCauHinhTuForm();
+
+    if (viTriSuaLaptop === -1) {
+        const laptopMoi = {
+            id: taoMaLaptopMoi(),
+            ten: ten,
+            loai: loai,
+            gia: gia,
+            hinh: hinh,
+            moTa: moTa,
+            cauHinh: {},
+            soluong: 0,
+            an: false
+        };
+
+        capNhatCauHinhLaptop(laptopMoi, cauHinhMoi);
+        PRODUCTS.push(laptopMoi);
+
+    } else {
+        const laptop = PRODUCTS[viTriSuaLaptop];
+
+        laptop.ten = ten;
+        laptop.loai = loai;
+        laptop.gia = gia;
+        laptop.hinh = hinh;
+        laptop.moTa = moTa;
+
+        capNhatCauHinhLaptop(laptop, cauHinhMoi);
     }
 
-if (viTriSuaLaptop === -1) {
-    const laptopMoi = {
-        id: ma,
-        ten: ten,
-        loai: loai,
-        gia: gia,
-        hinh: hinh,
-        moTa: moTa,
-        cauHinh: {
-            "CPU": oCpuLaptop.value.trim(),
-            "RAM": oRamLaptop.value.trim(),
-            "Ổ cứng": oOCungLaptop.value.trim(),
-            "Màn hình": oManHinhLaptop.value.trim()
-        },
-        soluong: 0,
-        an: false
-    };
+    localStorage.setItem("laptopShop", JSON.stringify(PRODUCTS));
 
-    PRODUCTS.push(laptopMoi);
-} else {
-    const laptop = PRODUCTS[viTriSuaLaptop];
+    viTriSuaLaptop = -1;
+    formLaptop.reset();
 
-    laptop.ten = ten;
-    laptop.loai = loai;
-    laptop.gia = gia;
-    laptop.hinh = hinh;
-    laptop.moTa = moTa;
-    laptop.cauHinh["CPU"] = oCpuLaptop.value.trim();
-    laptop.cauHinh["RAM"] = oRamLaptop.value.trim();
-    laptop.cauHinh["Ổ cứng"] = oOCungLaptop.value.trim();
-    laptop.cauHinh["Màn hình"] = oManHinhLaptop.value.trim();
-}
+    oMaLaptopHienThi.textContent =
+        "Mã laptop sẽ tự động tăng khi thêm sản phẩm, không cần nhập.";
 
-localStorage.setItem("laptopShop", JSON.stringify(PRODUCTS));
+    formLaptop.querySelector('button[type="submit"]').textContent =
+        "Thêm laptop";
 
-viTriSuaLaptop = -1;
-formLaptop.reset();
-oMaLaptop.readOnly = false;
+    hienThiLaptop();
 
-formLaptop.querySelector('button[type="submit"]').textContent =
-    "Thêm laptop";
-
-hienThiLaptop();
-
-alert("Đã lưu laptop!");
+    alert("Đã lưu laptop!");
 });
 const nutHuySuaLaptop = document.getElementById("huy-sua-laptop");
 
 nutHuySuaLaptop.addEventListener("click", function () {
     viTriSuaLaptop = -1;
     formLaptop.reset();
-    oMaLaptop.readOnly = false;
+oMaLaptopHienThi.textContent =
+    "Mã laptop sẽ tự động tăng khi thêm sản phẩm, không cần nhập.";
     capNhatLoaiLaptop();
 
     formLaptop.querySelector('button[type="submit"]').textContent =
